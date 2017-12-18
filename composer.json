@@ -1,0 +1,23 @@
+{
+  "require": {
+    "catfan/Medoo": "^1.4",
+    "psr/simple-cache": "^1.0",
+    "wixel/gump": "^1.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jeemu\\": [
+        "jeemu",
+        "jeemu/log/src",
+        "jeemu/cache/src"
+      ],
+      "Jeemu\\Log\\": "jeemu/log/src",
+      "Jeemu\\Test\\": [
+        "jeemu/test/src",
+        "jeemu/test/src/Obj"
+      ],
+      "Jeemu\\Db\\": "jeemu/db/src/Driver",
+      "Jeemu\\Cache\\": "jeemu/cache/src/Driver"
+    }
+  }
+}
