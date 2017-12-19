@@ -22,6 +22,8 @@ class Request
     }
 
     public function getPost(string $name,$default = null){
+        //var_dump($this->post);die;
+        jsonResponse([$this->requsetHandle->getPost()]);
         return isset($this->post[$name])?$this->post[$name]:$default;
     }
 
