@@ -72,6 +72,10 @@ return array(
         // [optional] Enable logging (Logging is disabled by default for better performance)
         'logging' => true
     ],
+    'aldayu'=>[
+        'app_key'=>'23311866',
+        'app_secret'=>'a873b1e2d9ef791b041a95016da1a114'
+    ],
     //开发模式
     'debug' => true
 );
