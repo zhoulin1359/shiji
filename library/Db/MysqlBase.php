@@ -11,7 +11,7 @@ class Db_MysqlBase implements Db_Interface
     protected $fetchStyle = PDO::FETCH_ASSOC;
     protected $tableName;
     protected $dbObj;
-    protected $replaceArr = ['Db','Model'];
+    protected $replaceArr = ['Db', 'Model'];
 
     public function __construct()
     {
@@ -20,7 +20,7 @@ class Db_MysqlBase implements Db_Interface
     }
 
 
-    public function getType():string
+    public function getType(): string
     {
         return 'db';
         // TODO: Implement getType() method.
@@ -39,22 +39,45 @@ class Db_MysqlBase implements Db_Interface
             $table = $this->tableName;
         }
         $data = $this->dbObj->select($table, $select, $where);
-       /* if (empty($data)) {
-            return null;
-        } else {
-            foreach ($data as $key => $value) {
-                $data[$key] = (object)$value;
-            }
-        }*/
+        /* if (empty($data)) {
+             return null;
+         } else {
+             foreach ($data as $key => $value) {
+                 $data[$key] = (object)$value;
+             }
+         }*/
         return $data;
     }
 
-
-    public function update($data,$where = null,$table =null){
-        if ($table){
+    public function get($select, $where = null, $table = null): array
+    {
+        if (!is_null($table)) {
             $this->tableName = $table;
         }
-        return $this->dbObj->update($this->tableName,$data,$where);
+        $result = [];
+        $data = $this->dbObj->get($this->tableName, $select, $where);
+        if ($data) {
+            $result = $data;
+        }
+        return $result;
+
+    }
+
+
+    public function has($where,$table=null):bool {
+        if (!is_null($table)) {
+            $this->tableName = $table;
+        }
+        return $this->dbObj->has($this->tableName,$where);
+    }
+
+
+    public function update($data, $where = null, $table = null)
+    {
+        if ($table) {
+            $this->tableName = $table;
+        }
+        return $this->dbObj->update($this->tableName, $data, $where);
     }
 
     /**
@@ -76,7 +99,8 @@ class Db_MysqlBase implements Db_Interface
     }
 
 
-    public function getLog(){
+    public function getLog()
+    {
         return $this->dbObj->log();
     }
 
@@ -87,7 +111,7 @@ class Db_MysqlBase implements Db_Interface
     {
         if (empty($this->tableName)) {
             $this->tableName = get_class($this);
-            $this->tableName = str_replace($this->replaceArr, ['',''], $this->tableName);
+            $this->tableName = str_replace($this->replaceArr, ['', ''], $this->tableName);
             for ($i = 0; $i < mb_strlen($this->tableName); $i++) {
                 if ($i === 0) {
                     $this->tableName[$i] = strtolower($this->tableName[$i]);
