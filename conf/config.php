@@ -76,6 +76,10 @@ return array(
         'app_key'=>'23311866',
         'app_secret'=>'a873b1e2d9ef791b041a95016da1a114'
     ],
+    'wechat'=>[
+        'appid'=>'wxfa31e52b4e31f982',
+        'appsecret'=>'f1ab5f7267fc73eb7c0ff710efef2759'
+    ],
     //开发模式
     'debug' => true
 );

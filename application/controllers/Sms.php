@@ -16,7 +16,7 @@ class SmsController extends BaseController
             jsonResponse([],-1,$valid[0]);
         }
         $model = new DbJeemuSmsModel();
-        if (!$model->set($param['phone'])){
+        if ($model->set($param['phone'])){
             jsonResponse();
         }else{
             jsonResponse([],0,$model->getSmsError());

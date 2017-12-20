@@ -17,7 +17,7 @@ class DbJeemuSmsModel extends Db_JeemuBase
     {
         $appKey = conf('alidayu.app_key');
         $appSecret = conf('alidayu.app_secret');
-        include APP_PATH . '/vendor/taobao-sdk-PHP-auto_1455552377940-20160607/TopSdk.php';
+        require_once APP_PATH . '/vendor/taobao-sdk-PHP-auto_1455552377940-20160607/TopSdk.php';
         $c = new \TopClient();
         $c->appkey = $appKey;
         $c->secretKey = $appSecret;

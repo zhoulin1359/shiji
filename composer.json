@@ -17,7 +17,8 @@
         "jeemu/test/src/Obj"
       ],
       "Jeemu\\Db\\": "jeemu/db/src/Driver",
-      "Jeemu\\Cache\\": "jeemu/cache/src/Driver"
+      "Jeemu\\Cache\\": "jeemu/cache/src/Driver",
+      "Jeemu\\Wechat\\": "jeemu/wechat/src"
     }
   }
 }
