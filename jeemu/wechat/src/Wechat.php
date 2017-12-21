@@ -17,10 +17,25 @@ class Wechat
     protected $appsecret;
     protected $cacheKey;
     protected $cacheTtl = 6500;
+    protected $wechatError;
+    protected $defaultError = '未知的错误发生了';
 
     public function __construct(string $appid, string $appsecret)
     {
         $this->appid = $appid;
         $this->appsecret = $appsecret;
+    }
+
+
+    protected function setError(string $api, string $error, string $errorMsg): bool
+    {
+        (new \DbJeemuWechatErrorModel())->set($api, $error);
+        $this->wechatError = $errorMsg;
+        return true;
+    }
+
+    public function getError(): string
+    {
+        return $this->wechatError;
     }
 }

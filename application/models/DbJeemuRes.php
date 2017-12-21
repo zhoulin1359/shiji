@@ -13,6 +13,8 @@ class DbJeemuResModel extends Db_JeemuBase
         if ($id = $this->getIdByUrl($url)){
             return $id;
         }
+        $data['original_name'] = '微信头像';
+        $data['mime_type'] = 'image/png';
         $data['url'] = $url;
         $data['key'] = md5($url);
         $data['insert_time'] = time();

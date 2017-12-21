@@ -75,6 +75,11 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
         }
     }
 
+    public function _initSession(){
+        $redis = (conf('redis'));
+        ini_set('session.save_handler','redis');
+        ini_set('session.save_path','tcp://'.$redis['host'].':'.$redis['port'].'?weight=1&timeout=2.5&database=9'.(isset($redis['auth'])?'&auth='.$redis['auth']:''));
+    }
 
     public function _initErrorHandle()
     {
@@ -90,7 +95,6 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
             });
 
         }
-
     }
 
 }

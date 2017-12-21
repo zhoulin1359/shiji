@@ -16,6 +16,9 @@ class Request
     private $body;
     private $method;
     private $requsetHandle;
+
+    public $host;
+    public $url;
     public function __construct()
     {
         $this->requsetHandle =  \Yaf\Dispatcher::getInstance()->getRequest();
@@ -25,7 +28,8 @@ class Request
             $this->post = \GUMP::xss_clean($this->requsetHandle->getPost());
             $this->body = \GUMP::xss_clean(json_decode(file_get_contents('php://input'),true));
         }
-
+        $this->url = $this->requsetHandle->url;
+        $this->host = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
     }
 
     public function getPost(string $name,$default = null){

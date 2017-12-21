@@ -33,7 +33,7 @@ class AccessToken extends Wechat
             $cache->set($this->cacheKey,$result->access_token,isset($result->expires_in)?$result->expires_in  - 600:$this->cacheTtl);
             return $result->access_token;
         }else{
-            (new \DbJeemuWechatErrorModel())->set(__CLASS__,json_encode($result));
+            $this->setError('获取AccessToken',json_encode($result),isset($result->errmsg)?$result->errmsg:$this->defaultError);
             return '';
             //失败
         }
@@ -48,7 +48,7 @@ class AccessToken extends Wechat
             $cache->set($this->cacheKey,$result->access_token,isset($result->expires_in)?$result->expires_in  - 600:$this->cacheTtl);
             return $result->access_token;
         }else{
-            (new \DbJeemuWechatErrorModel())->set(__CLASS__,json_encode($result));
+            $this->setError('获取AccessToken',json_encode($result),isset($result->errmsg)?$result->errmsg:$this->defaultError);
             return '';
             //失败
         }

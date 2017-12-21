@@ -71,7 +71,14 @@ function getRequestBody(string $name, $default = null)
     return $request->getBody($name, $default);
 }
 
+function response(){
+    return Jeemu\Dispatcher::getInstance()->getResponse(new Yaf\Response\Http());
+}
 
+
+function session(){
+    return \Yaf\Session::getInstance();
+}
 /**
  * 随机字符串
  * @param int $len

@@ -65,7 +65,7 @@ class AddrController extends BaseController
     public function testAction()
     {
         $model = new DbJeemuAddrModel();
-        $data = $model->get();
+        $data = $model->getALL();
         //$url =116.481499,39.990475';
         foreach ($data as $value) {
             $url = 'http://restapi.amap.com/v3/assistant/coordinate/convert?coordsys=gps&output=json&key=057cb3ea56d233f6edcfa4b3f394d91a&locations=' . $value['lng'] . ',' . $value['lat'];

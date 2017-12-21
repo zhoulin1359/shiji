@@ -59,7 +59,7 @@ class JsSdk extends Wechat
             $cache->set($this->cacheKey,$result->ticket,isset($result->expires_in)?$result->expires_in - 600:$this->cacheTtl);
             return $result->ticket;
         }else{
-            (new \DbJeemuWechatErrorModel())->set(__FUNCTION__,json_encode($result));
+            $this->setError('获取JsSdk参数错误',json_encode($result),isset($result->errmsg)?$result->errmsg:$this->defaultError);
             return '';
         }
     }

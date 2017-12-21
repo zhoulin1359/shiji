@@ -28,12 +28,6 @@ class DbJeemuAddrModel extends Db_JeemuBase
             'gaode_lat[>=]' => $param['min_lat'],
             'gaode_lat[<=]' => $param['max_lat']
         ]);
-        //var_dump($this->getLog());
-        //var_dump($data);die;
-      /*  var_dump($param);
-        var_dump($this->getLog());
-        var_dump($data);
-        var_dump($this->getError());*/
         if ($data) {
             $result = $data;
         }
@@ -41,7 +35,7 @@ class DbJeemuAddrModel extends Db_JeemuBase
     }
 
 
-    public function get(): array
+    public function getALL(): array
     {
         $result = [];
         $data = $this->select(['id', 'lng', 'lat']);

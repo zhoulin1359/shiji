@@ -12,6 +12,9 @@ namespace Jeemu;
 
 class Response
 {
+    const RESPONSE_INFO_100 = '服务器出现问题';
+    const RESPONSE_INFO_1 = 'success';
+
     private $response;
     private $data = [];
     private $msg;
@@ -26,6 +29,18 @@ class Response
         $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
     }
+
+
+    public function setCookie(string $key, string $value, int $ttl = 86400, string $path = '/', string $domain = null, bool $seure = true, bool $httpOnly = true)
+    {
+        if (empty($ttl)) {
+            setcookie($key, $value);
+        } else {
+            setcookie($key, $value, time() + $ttl, $path, $domain ? $domain : $_SERVER['HTTP_HOST'], $seure, $httpOnly);
+        }
+
+    }
+
 
     public function setData($data)
     {
