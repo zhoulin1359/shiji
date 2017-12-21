@@ -19,28 +19,41 @@ class Request
 
     public $host;
     public $url;
+
     public function __construct()
     {
-        $this->requsetHandle =  \Yaf\Dispatcher::getInstance()->getRequest();
+        $this->requsetHandle = \Yaf\Dispatcher::getInstance()->getRequest();
         $this->method = $this->requsetHandle->method;
         $this->quest = \GUMP::xss_clean($this->requsetHandle->getQuery());
-        if ($this->method == 'POST'){
+        if ($this->method == 'POST') {
             $this->post = \GUMP::xss_clean($this->requsetHandle->getPost());
-            $this->body = \GUMP::xss_clean(json_decode(file_get_contents('php://input'),true));
+            $this->body = \GUMP::xss_clean(json_decode(file_get_contents('php://input'), true));
         }
         $this->url = $this->requsetHandle->url;
-        $this->host = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
+        $this->host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
     }
 
-    public function getPost(string $name,$default = null){
-        return isset($this->post[$name])?$this->post[$name]:$default;
+
+    /**
+     * @return string
+     */
+    public function getCookie(string $name, $default = null)
+    {
+        return $this->requsetHandle->getCookie($name, $default);
     }
 
-    public function getQuery(string $name,$default = null){
-        return isset($this->quest[$name])?$this->quest[$name]:$default;
+    public function getPost(string $name, $default = null)
+    {
+        return isset($this->post[$name]) ? $this->post[$name] : $default;
     }
 
-    public function getBody(string $name,$default = null){
-        return isset($this->body[$name])?$this->body[$name]:$default;
+    public function getQuery(string $name, $default = null)
+    {
+        return isset($this->quest[$name]) ? $this->quest[$name] : $default;
+    }
+
+    public function getBody(string $name, $default = null)
+    {
+        return isset($this->body[$name]) ? $this->body[$name] : $default;
     }
 }

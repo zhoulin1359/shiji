@@ -12,6 +12,8 @@ namespace Jeemu;
 
 class Response
 {
+    const COOKIE_UUID = 'SHIJI_UUID';
+    const COOKIE_UUID_TTL = 86400 * 30;
     const RESPONSE_INFO_100 = '服务器出现问题';
     const RESPONSE_INFO_1 = 'success';
 

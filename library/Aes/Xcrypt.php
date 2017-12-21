@@ -12,10 +12,10 @@ class Aes_Xcrypt
     private $mothod;
     private $key;
     private $vi;
-    private $options=0;
+    private $options = 0;
     private $tag = 'jeemu';
 
-    public function __construct(string $method, string $key)
+    public function __construct(string $key, string $method = 'aes-128-gcm')
     {
         $this->mothod = $method;
         $this->key = $key;
@@ -23,11 +23,13 @@ class Aes_Xcrypt
     }
 
 
-    public function encode(string $str):string {
-        return openssl_encrypt($str,$this->mothod,$this->key,$this->options,$this->vi,$this->tag);
+    public function encode(string $str): string
+    {
+        return openssl_encrypt($str, $this->mothod, $this->key, $this->options, $this->vi, $this->tag);
     }
 
-    public function decode(string $str):string {
-        return openssl_decrypt($str,$this->mothod,$this->key,$this->options,$this->vi,$this->tag);
+    public function decode(string $str): string
+    {
+        return openssl_decrypt($str, $this->mothod, $this->key, $this->options, $this->vi, $this->tag);
     }
 }

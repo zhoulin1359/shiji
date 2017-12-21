@@ -39,12 +39,12 @@ class Dispatcher
     }
 
 
-    public function getRedis(): \Redis
+    public function getRedis(string $redisConf = 'redis'): \Redis
     {
-        if (empty(self::$obj[__FUNCTION__])) {
-            self::$obj[__FUNCTION__] = (new Db\Redis())->getObj();
+        if (empty(self::$obj[__FUNCTION__][$redisConf])) {
+            self::$obj[__FUNCTION__][$redisConf] = (new Db\Redis())->getObj();
         }
-        return self::$obj[__FUNCTION__];
+        return self::$obj[__FUNCTION__][$redisConf];
     }
 
 

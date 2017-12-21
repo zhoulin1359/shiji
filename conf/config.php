@@ -13,8 +13,22 @@ return array(
         'host' => '172.17.0.3',
         'port' => 6379,
         //'auth' => '123456',
-        'select' => 1
+        'select' => 0
     ),
+    //缓存配置
+    'redis_cache'=>[
+        'host' => '172.17.0.3',
+        'port' => 6379,
+        //'auth' => '123456',
+        'select' => 4
+        ],
+    //cookie对应关系
+    'redis_cookie'=>[
+        'host' => '172.17.0.3',
+        'port' => 6379,
+        //'auth' => '123456',
+        'select' => 3
+    ],
     //数据库
     'db' => [
         // required
@@ -79,6 +93,9 @@ return array(
     'wechat'=>[
         'appid'=>'wxfa31e52b4e31f982',
         'appsecret'=>'f1ab5f7267fc73eb7c0ff710efef2759'
+    ],
+    'aes'=>[
+        'key'=>'FeeSSDcccddEE'
     ],
     //开发模式
     'debug' => true

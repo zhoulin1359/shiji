@@ -27,4 +27,20 @@ class UserController extends BaseController
             jsonResponse([],-1,'服务器出现问题!请重试....');
         }
     }
+
+
+    public function isLoginAction(){
+        if ($this->uid){
+            return jsonResponse([true]);
+        }
+        return jsonResponse([false]);
+    }
+
+    public function getLoginUrlAction(){
+        $isWechat = getRequestQuery('isWechat');
+        if ($isWechat === 'true'){
+            return jsonResponse(['type'=>'go','url'=>(new Jeemu\Wechat\UserInfo(conf('wechat.appid'),conf('wechat.appsecret')))->getBaseUrl(Jeemu\Dispatcher::getInstance()->getRequest()->host.'/api/wechat/code')]);
+        }
+        return jsonResponse(['type'=>'push','url'=>'/login']);
+    }
 }
