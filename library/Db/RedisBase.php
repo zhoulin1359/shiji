@@ -15,7 +15,7 @@ class Db_RedisBase implements Db_Interface
 
     public function __construct()
     {
-        $this->handle = Jeemu\Dispatcher::getInstance()->getRedis('redis');
+        $this->handle = Jeemu\Dispatcher::getInstance()->getRedis($this->getType());
     }
 
 

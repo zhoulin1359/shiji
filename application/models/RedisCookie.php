@@ -12,7 +12,7 @@ class RedisCookieModel extends Db_RedisCookie
 
     public function set(string $uuid, int $uid, int $ttl = 0): bool
     {
-        if (!empty($ttl)) {
+        if (empty($ttl)) {
             $ttl = $this->ttl;
         }
         return $this->handle->set($uuid, $uid, $ttl) ? true : false;

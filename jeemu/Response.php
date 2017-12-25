@@ -21,6 +21,7 @@ class Response
     private $data = [];
     private $msg;
     private $status = 1;
+    private $sendHtml = false;
 
     public function __construct(\Yaf\Response\Http $response)
     {
@@ -64,8 +65,17 @@ class Response
         $this->msg = $msg;
     }
 
+    public function sendHtml(string $html):bool {
+        $this->sendHtml = true;
+        echo ($html);
+        return true;
+    }
+
     public function __destruct()
     {
+        if ($this->sendHtml){
+            return;
+        }
         $this->response->clearBody();
         $callback = getRequestQuery('callback');
         if ($callback) {

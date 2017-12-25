@@ -63,7 +63,8 @@ class WechatController extends BaseController
         if ($uid = $userModel->setByWechat($userInfo['openid'], $userInfo['nickname'], $userInfo['sex'], $resId)) {
             (new DbJeemuUserAddressModel())->set($uid, $userInfo['country'], $userInfo['province'], $userInfo['city']);
             $this->login($uid, 2, $userInfo['nickname'], $userInfo['headimgurl']);
-            return jsonResponse([$uid]);
+           return response()->sendHtml((getRequestQuery('path')?$_SESSION['HTTP_REFERER'].getRequestQuery('path'):'https://www.shiji.com'));
+            return response()->sendHtml('<script>window.location.href=\''.(getRequestQuery('path')?conf('client_host').getRequestQuery('path'):conf('client_host')) .'\'</script>');
         } else {
             return jsonResponse([], 0, \Jeemu\Response::RESPONSE_INFO_100);
         }

@@ -11,12 +11,8 @@ class IndexController extends Yaf\Controller_Abstract
 {
     //默认Action
     public function indexAction()
-    {
-        jsonResponse($_SERVER);
-        throw new ErrorException('sss',1);
-       // die;
-        //$route = new Yaf\Route_Simple("m", "controller", "act");
-        //jsonResponse($_SERVER);
+    {  $cookieRedis = new RedisCookieModel();
+        var_dump($cookieRedis->set('123',12,12));
     }
 
     public function phpInfoAction(){
