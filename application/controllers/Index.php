@@ -11,8 +11,8 @@ class IndexController extends Yaf\Controller_Abstract
 {
     //默认Action
     public function indexAction()
-    {  $cookieRedis = new RedisCookieModel();
-        var_dump($cookieRedis->set('123',12,12));
+    {
+        jsonResponse($_SERVER);
     }
 
     public function phpInfoAction(){

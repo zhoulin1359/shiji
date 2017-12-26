@@ -26,24 +26,23 @@ class BaseController extends Yaf\Controller_Abstract
         } else {
             $uuid = request()->getCookie(response()::COOKIE_UUID);
             if ($uuid) {
-                $uuid = (new Aes_Xcrypt(conf('aes.key')))->decode(base64_decode($uuid));
-                if ($uuid !== false) {
+                // var_dump(($uuid));
+                // var_dump(base64_decode($uuid));
+                $aes = new Aes_Xcrypt(conf('aes.key'));
+                $uuid = $aes->decode(base64_decode($uuid));
+                if (!empty($uuid)) {
                     $cookieRedis = new RedisCookieModel();
                     $uid = $cookieRedis->get($uuid);
-                    if ($uid) {
-                        $userData = (new DbJeemuUserModel())->getUserLoginInfoById($uid);
+                    if (isset($uid['user_agent']) && $uid['user_agent'] === md5(request()->userAgent) && isset($uid['uid'])) {
+                        $userData = (new DbJeemuUserModel())->getUserLoginInfoById($uid['uid']);
                         if (!empty($userData)) {
-                            if (isWechat()) {
-                                $this->loginByWechat($uid, $userData['group_d'], $userData['nick'], $userData['head_img']);
-                            } else {
-                                $this->loginByPhone($uid, $userData['group_d'], $userData['nick'], $userData['head_img']);
-                            }
+                            $this->login($uid['uid'], $userData['group_id'], $userData['nick'], $userData['head_img'], isWechat());
                         }
-                    }else{
-                        response()->setCookie(response()::COOKIE_UUID,0,-1);
+                    } else {
+                        response()->setCookie(response()::COOKIE_UUID, 0, -1);
                     }
-                }else{
-                    response()->setCookie(response()::COOKIE_UUID,0,-1);
+                } else {
+                    response()->setCookie(response()::COOKIE_UUID, 0, -1);
                 }
             }
         }
@@ -56,35 +55,21 @@ class BaseController extends Yaf\Controller_Abstract
 
 
     //private function
-    protected function loginByPhone(int $uid, int $groupId, string $nick, string $headImg): bool
+    protected function login(int $uid, int $groupId, string $nick, string $headImg, bool $isWechat = false): bool
     {
+        $this->uid = $uid;
+
         $this->session->set('uid', $uid);
         $this->session->set('groupId', $groupId);
         $this->session->set('nick', $nick);
         $this->session->set('headImg', $headImg);
 
         $uuid = randStr(16) . $uid;
-        $uuid = (new Aes_Xcrypt(conf('aes.key')))->encode($uuid);
+        $encodeUuid = (new Aes_Xcrypt(conf('aes.key')))->encode($uuid);
         $response = response();
-        $response->setCookie($response::COOKIE_UUID, base64_encode($uuid), $response::COOKIE_UUID_TTL);
+        $response->setCookie($response::COOKIE_UUID, base64_encode($encodeUuid), $isWechat ? $response::COOKIE_WECHAT_UUID_TTL : $response::COOKIE_UUID_TTL);
         $cookieRedis = new RedisCookieModel();
-        $cookieRedis->set($uuid, $uid);
-        return true;
-    }
-
-    protected function loginByWechat(int $uid, int $groupId, string $nick, string $headImg): bool
-    {
-        $this->session->set('uid', $uid);
-        $this->session->set('groupId', $groupId);
-        $this->session->set('nick', $nick);
-        $this->session->set('headImg', $headImg);
-
-        $uuid = randStr(16) . $uid;
-        $uuid = (new Aes_Xcrypt(conf('aes.key')))->encode($uuid);
-        $response = response();
-        $response->setCookie($response::COOKIE_UUID, base64_encode($uuid), $response::COOKIE_WECHAT_UUID_TTL);
-        $cookieRedis = new RedisCookieModel();
-        $cookieRedis->set($uuid, $uid);
+        $cookieRedis->set($uuid, ['uid' => $uid, 'user_agent' => md5(request()->userAgent)]);
         return true;
     }
 }

@@ -62,8 +62,8 @@ class WechatController extends BaseController
         $userModel = new DbJeemuUserModel();
         if ($uid = $userModel->setByWechat($userInfo['openid'], $userInfo['nickname'], $userInfo['sex'], $resId)) {
             (new DbJeemuUserAddressModel())->set($uid, $userInfo['country'], $userInfo['province'], $userInfo['city']);
-            $this->loginByWechat($uid, 2, $userInfo['nickname'], $userInfo['headimgurl']);
-            return response()->sendHtml('<script>window.location.href=\''.(getRequestQuery('path')?conf('client_host').getRequestQuery('path'):conf('client_host')) .'\'</script>');
+            $this->login($uid, 2, $userInfo['nickname'], $userInfo['headimgurl'], true);
+            return response()->sendHtml('<script>window.location.href=\'' . (getRequestQuery('path') ? conf('client_host') . getRequestQuery('path') : conf('client_host')) . '\'</script>');
         } else {
             return jsonResponse([], 0, \Jeemu\Response::RESPONSE_INFO_100);
         }

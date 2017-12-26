@@ -40,10 +40,18 @@ class UserController extends BaseController
 
     public function getLoginUrlAction()
     {
-        $isWechat = getRequestQuery('isWechat');
-        if ($isWechat === 'true') {
-            return jsonResponse(['type' => 'go', 'url' => (new Jeemu\Wechat\UserInfo(conf('wechat.appid'), conf('wechat.appsecret')))->getBaseUrl(Jeemu\Dispatcher::getInstance()->getRequest()->host . '/api/wechat/code' . (getRequestQuery('path') ? '?path=' . getRequestQuery('path') : ''))]);
+        $path = (getRequestQuery('path') ? '?path=' . getRequestQuery('path') : '');
+        if (isWechat()) {
+            return jsonResponse(['type' => 'go', 'url' => (new Jeemu\Wechat\UserInfo(conf('wechat.appid'), conf('wechat.appsecret')))->getBaseUrl(Jeemu\Dispatcher::getInstance()->getRequest()->host . '/api/wechat/code' . $path)],1);
         }
-        return jsonResponse(['type' => 'push', 'url' => '/login']);
+        return jsonResponse(['type' => 'push', 'url' => '/login'.$path],1);
+    }
+
+
+    public function loginUrlAction(){
+        if ($this->uid){
+            return jsonResponse([]);
+        }
+        return jsonResponse([],302,'请登录');
     }
 }

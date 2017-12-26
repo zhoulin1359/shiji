@@ -97,7 +97,7 @@ return array(
     'aes'=>[
         'key'=>'FeeSSDcccddEE'
     ],
-    'client_host'=>'http:127.0.0.1:8080/#',
+    'client_host'=>'http:127.0.0.1:8083/#',
     //开发模式
     'debug' => true
 );

@@ -10,7 +10,7 @@ class RedisCookieModel extends Db_RedisCookie
 {
     protected $ttl = 86400 * 30;
 
-    public function set(string $uuid, int $uid, int $ttl = 0): bool
+    public function set(string $uuid, $uid, int $ttl = 0): bool
     {
         if (empty($ttl)) {
             $ttl = $this->ttl;
@@ -18,13 +18,13 @@ class RedisCookieModel extends Db_RedisCookie
         return $this->handle->set($uuid, $uid, $ttl) ? true : false;
     }
 
-    public function get(string $uuid): int
+    public function get(string $uuid): array
     {
         $data = $this->handle->get($uuid);
         if ($data) {
-            return (int)$data;
+            return (array)$data;
         }
-        return 0;
+        return [];
     }
 
     public function has(string $uuid): bool
