@@ -38,7 +38,6 @@ class DbJeemuSmsModel extends Db_JeemuBase
             return false;
         }
         $data['phone'] = $phone;
-        $data['code'] = rand(100000, 999999);
         $data['expire_time'] = time() + $this->timeOut;
         $data['insert_time'] = time();
         $check = $this->insert($data)->rowCount();
@@ -48,14 +47,21 @@ class DbJeemuSmsModel extends Db_JeemuBase
         return false;
     }
 
-    public function get(string $phone): array
+    public function getSmsByPhone(string $phone): array
     {
         $result = [];
-        $data = $this->select(['id', 'phone', 'code'], ['phone[=]' => $phone, 'status[=]' => 1, 'expire_time[<=]' => time(), 'ORDER' => ['id' => 'DESC'], 'LIMIT' => 1]);
+        $data = $this->get(['id', 'phone', 'code'], ['phone[=]' => $phone, 'status[=]' => 1, 'expire_time[>=]' => time(), 'ORDER' => ['id' => 'DESC']]);
         if ($data) {
             $result = $data;
         }
         return $result;
+    }
+
+    public function updateStatusById(int $id):bool {
+        if ($this->update(['status'=>0],['id[=]'=>$id])->rowCount()){
+            return true;
+        }
+        return false;
     }
 
     public function getSmsError()

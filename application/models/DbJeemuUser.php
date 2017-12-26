@@ -8,17 +8,20 @@
  */
 class DbJeemuUserModel extends Db_JeemuBase
 {
-    public function setByPhone(string $phone, string $password): bool
+    public function setByPhone(string $phone, string $password): int
     {
+        $data['headimg_res_id'] = 1;
         $data['phone'] = $phone;
         $data['salt'] = randStr(16);
         $data['password'] = md5($password . $data['salt']);
         $data['insert_time'] = time();
+        $data['update_time'] = time();
         $this->insert($data);
-        if ($this->dbObj->id()) {
-            return true;
+        if ($id = $this->dbObj->id()) {
+            $this->update(['nick'=>'史迹_'.$id],['id[=]'=>$id]);
+            return $id;
         }
-        return false;
+        return 0;
     }
 
     /**

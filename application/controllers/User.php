@@ -10,22 +10,41 @@ class UserController extends BaseController
 {
     public function registerAction()
     {
-        $param['phone'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getPost('phone');
-        $param['password'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getPost('password');
-        $param['code'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getPost('code');
+        $param['phone'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getBody('phone');
+        $param['password'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getBody('password');
+        $param['code'] = \Jeemu\Dispatcher::getInstance()->getRequest()->getBody('code');
         $valid = GUMP::is_valid($param, [
             'phone' => 'required|phone_number|exact_len,11',
-            'password' => 'required|max_len,6|min_len,18',
+            'password' => 'required|min_len,6|max_len,18',
             'code' => 'required|exact_len,6'
         ]);
         if ($valid !== true) {
-            jsonResponse([$param], -1, $valid[0]);
+            return jsonResponse([$param], -1, $valid[0]);
         }
+        $smsModel = new DbJeemuSmsModel();
+        $smsData = $smsModel->getSmsByPhone($param['phone']);
+        if (empty($smsData)){
+            return jsonResponse([$smsData,$smsModel->getLog()],-1,'短信验证码不正确');
+        }
+        if ($param['code'] != $smsData['code']){
+            return jsonResponse([$smsData],-1,'短信验证码不正确');
+        }
+        if ($param['phone'] != $smsData['phone']){
+            return jsonResponse([3],-1,'短信验证码不正确');
+        }
+        $smsModel->updateStatusById((int)$smsData['id']);
+
         $model = new DbJeemuUserModel();
-        if ($model->setByPhone($param['phone'], $param['password'])) {
-            jsonResponse();
+        if ($uid = $model->setByPhone($param['phone'], $param['password'])) {
+            $userInfo = $model->getUserLoginInfoById($uid);
+            if (!empty($userInfo)) {
+                $this->login($uid, $userInfo['group_id'], $userInfo['nick'], $userInfo['head_img'], isWechat());
+                return jsonResponse();
+            }else{
+                return jsonResponse([$model->getError(),$model->getLog()], -1, '服务器出现问题!请重试....');
+            }
         } else {
-            jsonResponse([], -1, '服务器出现问题!请重试....');
+            return jsonResponse([], -1, '服务器出现问题!请重试....');
         }
     }
 

@@ -13,13 +13,13 @@ class SmsController extends BaseController
 
         $valid = GUMP::is_valid($param,['phone'=>'required|phone_number|max_len,11|min_len,11']);
         if ($valid !== true){
-            jsonResponse([],-1,$valid[0]);
+            return jsonResponse([],-1,$valid[0]);
         }
         $model = new DbJeemuSmsModel();
         if ($model->set($param['phone'])){
-            jsonResponse();
+            return jsonResponse();
         }else{
-            jsonResponse([],0,$model->getSmsError());
+            return jsonResponse([],0,$model->getSmsError());
         }
     }
 }
