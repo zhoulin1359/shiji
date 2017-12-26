@@ -14,6 +14,7 @@ class Response
 {
     const COOKIE_UUID = 'SHIJI_UUID';
     const COOKIE_UUID_TTL = 86400 * 30;
+    const COOKIE_WECHAT_UUID_TTL = 86400 * 1;
     const RESPONSE_INFO_100 = '服务器出现问题';
     const RESPONSE_INFO_1 = 'success';
 

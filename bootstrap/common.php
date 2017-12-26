@@ -40,7 +40,7 @@ function conf(string $conf, $default = null)
  * @param int $status
  * @param string $info
  */
-function jsonResponse(array $data = [], int $status = 1, string $msg = 'success', Yaf\Response_Abstract $response = null):bool
+function jsonResponse(array $data = [], int $status = 1, string $msg = 'success', Yaf\Response_Abstract $response = null): bool
 {
     if (empty($response)) {
         $response = new Yaf\Response\Http();
@@ -71,14 +71,21 @@ function getRequestBody(string $name, $default = null)
     return $request->getBody($name, $default);
 }
 
-function response(){
+function response()
+{
     return Jeemu\Dispatcher::getInstance()->getResponse(new Yaf\Response\Http());
 }
 
+function request()
+{
+    return Jeemu\Dispatcher::getInstance()->getRequest();
+}
 
-function session(){
+function session()
+{
     return \Yaf\Session::getInstance();
 }
+
 /**
  * 随机字符串
  * @param int $len
@@ -159,4 +166,13 @@ function curlHttpsGet($url, $timeOut = 10)
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;
+}
+
+
+function isWechat(): bool
+{
+    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+        return true;
+    }
+    return false;
 }

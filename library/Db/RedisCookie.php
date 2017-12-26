@@ -8,6 +8,14 @@
  */
 class Db_RedisCookie extends Db_RedisBase implements Db_Interface
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->handle->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
+    }
+
+
     public function getType(): string
     {
         return 'redis_cookie';

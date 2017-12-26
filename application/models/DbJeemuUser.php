@@ -21,6 +21,21 @@ class DbJeemuUserModel extends Db_JeemuBase
         return false;
     }
 
+    /**
+     * 获取用户登录信息
+     * @param int $id
+     * @return array
+     */
+    public function getUserLoginInfoById(int $id):array {
+        $result = [];
+        $data = $this->get(['nick','group_id','headimg_res_id'],['id[=]'=>$id,'status[=]'=>1]);
+        if ($data){
+            $result = $data;
+            $result['head_img'] = (new DbJeemuResModel())->getUrlById($data['headimg_res_id']);
+        }
+        return $result;
+    }
+
     /*
      * "{"openid":"o2v4SwuiQtqk00qEaPTWg-jjQ0MI",
      * "nickname":"积木","sex":1,"language":"zh_CN",
