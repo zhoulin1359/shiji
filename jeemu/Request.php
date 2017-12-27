@@ -20,6 +20,7 @@ class Request
     public $host;
     public $url;
     public $userAgent;
+    public $referer;
 
     public function __construct()
     {
@@ -33,6 +34,7 @@ class Request
         $this->url = $this->requsetHandle->url;
         $this->host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
         $this->userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $this->referer = $_SERVER['HTTP_ORIGIN'];
     }
 
 

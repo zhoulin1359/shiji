@@ -28,7 +28,7 @@ class Response
     {
         $this->response = $response;
         $this->response->setHeader('Content-Type', 'application/json;charset=utf-8');
-        $this->response->setHeader('Access-Control-Allow-Origin', 'http://www.shiji.com:8083');
+        $this->response->setHeader('Access-Control-Allow-Origin', !empty(request()->referer)?request()->referer:'*');
         $this->response->setHeader('Access-Control-Allow-Credentials', 'true'); //允许cookie
         $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');

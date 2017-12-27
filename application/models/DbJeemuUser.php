@@ -13,15 +13,20 @@ class DbJeemuUserModel extends Db_JeemuBase
         $data['headimg_res_id'] = 1;
         $data['phone'] = $phone;
         $data['salt'] = randStr(16);
-        $data['password'] = md5($password . $data['salt']);
+        $data['password'] = $this->getPassword($password,$data['salt']);
         $data['insert_time'] = time();
         $data['update_time'] = time();
         $this->insert($data);
         if ($id = $this->dbObj->id()) {
-            $this->update(['nick'=>'史迹_'.$id],['id[=]'=>$id]);
+            $this->update(['nick' => '史迹_' . $id], ['id[=]' => $id]);
             return $id;
         }
         return 0;
+    }
+
+
+    public function getPassword(string $password,string $salt){
+        return  md5($password . $salt);
     }
 
     /**
@@ -29,10 +34,11 @@ class DbJeemuUserModel extends Db_JeemuBase
      * @param int $id
      * @return array
      */
-    public function getUserLoginInfoById(int $id):array {
+    public function getUserLoginInfoById(int $id): array
+    {
         $result = [];
-        $data = $this->get(['nick','group_id','headimg_res_id'],['id[=]'=>$id,'status[=]'=>1]);
-        if ($data){
+        $data = $this->get(['nick', 'group_id', 'headimg_res_id'], ['id[=]' => $id, 'status[=]' => 1]);
+        if ($data) {
             $result = $data;
             $result['head_img'] = (new DbJeemuResModel())->getUrlById($data['headimg_res_id']);
         }
@@ -65,6 +71,16 @@ class DbJeemuUserModel extends Db_JeemuBase
         return 0;
     }
 
+    public function getLoginInfoByPhone(string $phone): array
+    {
+        $result = [];
+        $data = $this->get(['id','password', 'salt', 'nick', 'group_id','headimg_res_id', 'status'], ['phone[=]' => $phone]);
+        if ($data) {
+            $result = $data;
+        }
+        return $result;
+    }
+
     public function updateByWechat(string $nick, int $sex, int $resId): bool
     {
         $data['nick'] = $nick;
@@ -89,5 +105,10 @@ class DbJeemuUserModel extends Db_JeemuBase
     public function hasByOpenid(string $openid): bool
     {
         return $this->has(['openid[=]' => $openid]);
+    }
+
+    public function hasByPhone(string $phone): bool
+    {
+        return $this->has(['phone[=]' => $phone]);
     }
 }
