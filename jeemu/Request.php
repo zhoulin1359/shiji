@@ -28,8 +28,13 @@ class Request
         $this->method = $this->requsetHandle->method;
         $this->quest = \GUMP::xss_clean($this->requsetHandle->getQuery());
         if ($this->method == 'POST') {
-            $this->post = \GUMP::xss_clean($this->requsetHandle->getPost());
-            $this->body = \GUMP::xss_clean(json_decode(file_get_contents('php://input'), true));
+            if($temp = $this->requsetHandle->getPost()){
+                $this->post = \GUMP::xss_clean($temp);
+            }
+            if ($temp = json_decode(file_get_contents('php://input'), true)){
+                $this->body = \GUMP::xss_clean($temp);
+            }
+
         }
         $this->url = $this->requsetHandle->url;
         $this->host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];

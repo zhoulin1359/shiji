@@ -57,7 +57,7 @@ class Dispatcher
     }
 
 
-    public function getCache(string $driver = 'file'):Cache
+    public function getCache(string $driver = 'file'): Cache
     {
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = new Cache($driver);
@@ -66,7 +66,7 @@ class Dispatcher
     }
 
 
-    public function getRequest():Request
+    public function getRequest(): Request
     {
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = new Request();
@@ -74,9 +74,18 @@ class Dispatcher
         return self::$obj[__FUNCTION__];
     }
 
-    public function getResponse($respons):Response{
+    public function getResponse($respons): Response
+    {
         if (empty(self::$obj[__FUNCTION__])) {
             self::$obj[__FUNCTION__] = new Response($respons);
+        }
+        return self::$obj[__FUNCTION__];
+    }
+
+    public function getUpload(string $path =''): Upload
+    {
+        if (empty(self::$obj[__FUNCTION__])) {
+            self::$obj[__FUNCTION__] = new Upload($_FILES, $path);
         }
         return self::$obj[__FUNCTION__];
     }

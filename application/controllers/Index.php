@@ -7,7 +7,7 @@
  * Time: 19:23
  * Email: jeemu@wearke.net
  */
-class IndexController extends Yaf\Controller_Abstract
+class IndexController extends BaseController
 {
     //默认Action
     public function indexAction()

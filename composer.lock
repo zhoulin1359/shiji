@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b1791b0838c2d7c0f70ad3e3b96a05c",
+    "content-hash": "f9408f200c03ed2e193501fef9939c30",
     "packages": [
         {
             "name": "catfan/medoo",
-            "version": "v1.4.5",
+            "version": "v1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/catfan/Medoo.git",
-                "reference": "8ee8ae1c4df0fee3822a01333eab88893e548fcc"
+                "reference": "1aa25a4001e0cfb739ba2996f00f4a3d2a7fdf07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/catfan/Medoo/8ee8ae1c4df0fee3822a01333eab88893e548fcc.zip",
-                "reference": "8ee8ae1c4df0fee3822a01333eab88893e548fcc",
+                "url": "https://files.phpcomposer.com/files/catfan/Medoo/1aa25a4001e0cfb739ba2996f00f4a3d2a7fdf07.zip",
+                "reference": "1aa25a4001e0cfb739ba2996f00f4a3d2a7fdf07",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +31,7 @@
                 "ext-pdo_oci8": "For Oracle version 8 database",
                 "ext-pdo_pqsql": "For PostgreSQL database",
                 "ext-pdo_sqlite": "For SQLite database",
-                "ext-pdo_sqlsrv": "For MSSQL database on Windows platform"
+                "ext-pdo_sqlsrv": "For MSSQL database"
             },
             "type": "framework",
             "autoload": {
@@ -63,7 +63,57 @@
                 "sql",
                 "sqlite"
             ],
-            "time": "2017-06-24T14:43:07+00:00"
+            "time": "2017-12-25T17:02:41+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/php-fig/http-message/f6561bf28d520154e4b0ec72be95418abe6d9363.zip",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2016-08-06T14:39:51+00:00"
         },
         {
             "name": "psr/simple-cache",
