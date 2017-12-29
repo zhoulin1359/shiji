@@ -13,13 +13,15 @@ use Psr\Http\Message\UploadedFileInterface;
 
 class Upload implements UploadedFileInterface
 {
+    public $host = 'http://res.shiji.com';
     private $uploadPath = '../upload';
+    private $filePath;
     private $file;
-    private $errorMsg='';
+    private $errorMsg = '';
     private $clientFilename;
     private $clientMediaType;
     private $size;
-    private $suffix;
+    private $extension;
 
     public function __construct($file, string $path = '')
     {
@@ -32,14 +34,16 @@ class Upload implements UploadedFileInterface
         if ($path) {
             $this->uploadPath = $path;
         }
-        $this->uploadPath .= date('/Y/m/d/') . randStr(5);
-        if (!is_dir($this->uploadPath)) {
-            createPath($this->uploadPath);
+        $this->uploadPath;
+        $this->filePath = date('/Y/m/d/') . randStr(5);
+        if (!is_dir($this->uploadPath . $this->filePath)) {
+            createPath($this->uploadPath . $this->filePath, 0644);
         }
         $this->clientFilename = $this->file['name'];
-        $this->clientMediaType = $this->file['type'];
+        // $this->clientMediaType = $this->file['type'];
         $this->size = $this->file['size'];
-        $this->suffix = pathinfo($this->clientFilename)['basename'];
+        // var_dump( pathinfo($this->clientFilename));
+        $this->extension = pathinfo($this->clientFilename)['extension'];
     }
 
     private function codeToMessage($code)
@@ -73,17 +77,23 @@ class Upload implements UploadedFileInterface
         }
     }
 
-    public function getClientFilename():string
+    public function getClientFilename(): string
     {
         return $this->clientFilename;
         // TODO: Implement getClientFilename() method.
     }
 
-    public function getClientMediaType():string
+    public function getClientMediaType(): string
     {
-        return $this->clientMediaType;
+
+        $fInfo = new \finfo(FILEINFO_MIME );
+         $a = ($fInfo->file($this->file['tmp_name']));
+         return $a;
+        //$mimeType = $fInfo->file($this->file['tmp_name']);
+       // return strstr($a,';',true);
         // TODO: Implement getClientMediaType() method.
     }
+
 
     public function getError(): string
     {
@@ -91,10 +101,15 @@ class Upload implements UploadedFileInterface
         // TODO: Implement getError() method.
     }
 
-    public function getSize():int
+    public function getSize(): int
     {
         return $this->size;
         // TODO: Implement getSize() method.
+    }
+
+    public function getExtension(): string
+    {
+        return $this->extension;
     }
 
     public function getStream()
@@ -102,15 +117,68 @@ class Upload implements UploadedFileInterface
         // TODO: Implement getStream() method.
     }
 
+    public function getKey(): string
+    {
+        return md5_file($this->file['tmp_name']);
+    }
+
+    /**
+     *max_size 最大字节数  1k = 1024
+     * @param $role
+     * @return bool
+     */
+    public function check($role): bool
+    {
+        if ($this->file['error'] !== 0) {
+            return false;
+        }
+        if (isset($role['max_size']) && !empty($role['max_size'])) {
+            if ($role['max_size'] < $this->getSize()) {
+                $this->errorMsg = '上传的文件太大了';
+                return false;
+            }
+        }
+        if (isset($role['extension']) && is_array($role['extension'])) {
+            if (!in_array($this->getExtension(), $role['extension'])) {
+                $this->errorMsg = '只允许上传' . implode(',', $role['extension']) . '格式文件';
+                return false;
+            }
+        }
+
+        if (isset($role['extension']) && is_array($role['extension'])) {
+            if (!in_array($this->getExtension(), $role['extension'])) {
+                $this->errorMsg = '只允许上传' . implode(',', $role['extension']) . '格式文件';
+                return false;
+            }
+        }
+        if (isset($role['mime_type']) && is_array($role['mime_type'])) {
+            $fileMimeType = $this->getClientMediaType();
+            var_export($fileMimeType);
+            $fileMimeType = strstr($fileMimeType,';',true);
+            if (!in_array($fileMimeType, $role['mime_type'])) {
+                var_export($fileMimeType);
+                $this->errorMsg = '只允许上传' . implode(',', $role['mime_type']) . '类型文件';
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function moveTo($targetPath = ''): string
     {
+
+        if ($this->file['error'] !== 0) {
+            return '';
+        }
+
         if (!is_uploaded_file($this->file['tmp_name'])) {
             $this->errorMsg = '非法文件';
             return '';
         }
-        $filename= $this->uploadPath . '/' . uniqid().$this->suffix;
-        if (move_uploaded_file($this->file['tmp_name'], $filename)){
-            return $filename;
+        $filename = $this->filePath . '/' . uniqid() . '.' . $this->extension;
+        if (move_uploaded_file($this->file['tmp_name'], $this->uploadPath . $filename)) {
+            // chmod($this->uploadPath.$filename,0444);
+            return $this->host . $filename;
         }
         $this->errorMsg = '上传出错';
         return '';

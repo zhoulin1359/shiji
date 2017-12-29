@@ -10,7 +10,7 @@ class DbJeemuResModel extends Db_JeemuBase
 {
     public function setByUrl(string $url): int
     {
-        if ($id = $this->getIdByUrl($url)){
+        if ($id = $this->getIdByUrl($url)) {
             return $id;
         }
         $data['original_name'] = '微信头像';
@@ -18,9 +18,27 @@ class DbJeemuResModel extends Db_JeemuBase
         $data['url'] = $url;
         $data['key'] = md5($url);
         $data['insert_time'] = time();
+        $data['update_time'] = time();
         $this->insert($data);
         if ($result = $this->dbObj->id()) {
             return $result;
+        }
+        return 0;
+    }
+
+    public function set(string $originalName, string $url, string $mimeType, int $size, string $key, int $uid): int
+    {
+        $data['original_name'] = $originalName;
+        $data['mime_type'] = $mimeType;
+        $data['url'] = $url;
+        $data['size'] = $size;
+        $data['key'] = $key;
+        $data['uid'] = $uid;
+        $data['insert_time'] = time();
+        $data['update_time'] = time();
+        $this->insert($data);
+        if ($id = $this->dbObj->id()) {
+            return $id;
         }
         return 0;
     }
@@ -43,6 +61,17 @@ class DbJeemuResModel extends Db_JeemuBase
             return $data['id'];
         }
         return 0;
+    }
+
+
+    public function getIdAndUrlByKey(string $key): array
+    {
+        $result = [];
+        $data = $this->get(['id', 'url'], ['key[=]' => $key]);
+        if ($data) {
+            $result = $data;
+        }
+        return $result;
     }
 
     public function hasByUrl(string $url): bool

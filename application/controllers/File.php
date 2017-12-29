@@ -8,13 +8,27 @@
  */
 class FileController extends BaseController
 {
-    public function uploadImgAction(){
+    public function uploadImgAction()
+    {
         $upload = \Jeemu\Dispatcher::getInstance()->getUpload();
-        $result = $upload->moveTo();
-        if ($result){
-            return jsonResponse(['url'=>'http://img.dwstatic.com/lol/1712/378211993215/1514257242940.jpg']);
-            return response()->sendHtml(json_encode(['result'=>0,'message'=>'','data'=>['url'=>$result]]));
+        if (!$upload->check(['extension' => ['png', 'jpg', 'jpeg', 'gif'], 'max_size' => 1024 * 1024 * 10, 'mime_type' => ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']])) {
+            return jsonResponse([], -1, $upload->getError());
         }
-        return response()->sendHtml(json_encode(['result'=>0,'message'=>'','data'=>['url'=>$result]]));
+        $fileKey = $upload->getKey();
+        $resModel = new DbJeemuResModel();
+        $imgData = $resModel->getIdAndUrlByKey($fileKey);
+        if (!empty($imgData)) {
+            return jsonResponse(['url' => $imgData['url'], 'id' => $imgData['id']]);
+        }
+        $result = $upload->moveTo();
+        if ($result) {
+            if ($id = $resModel->set($upload->getClientFilename(), $result, $upload->getClientMediaType(), $upload->getSize(), $upload->getSize(), $this->uid)) {
+                return jsonResponse(['url' => $result, 'id' => $id]);
+            } else {
+                return jsonResponse([], 0, response()::RESPONSE_INFO_100);
+            }
+            //return response()->sendHtml(json_encode(['result'=>0,'message'=>'','data'=>['url'=>$result]]));
+        }
+        return jsonResponse([], 0, response()::RESPONSE_INFO_100);
     }
 }

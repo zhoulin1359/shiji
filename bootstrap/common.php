@@ -110,15 +110,15 @@ function randStr(int $len = 8)
  * @param $path
  * @throws Exception
  */
-function createPath($path)
+function createPath(string $path, int $mode = 0755)
 {
     if (!is_dir($path)) {
-        if (!mkdir($path, 0755, true)) {
+        if (!mkdir($path, $mode, true)) {
             throw new \Exception('创建目录失败', -1);
         }
     } else {
         if (substr(sprintf('%o', fileperms($path)), -4) != '0755') {
-            if (!chmod($path, 0755)) {
+            if (!chmod($path, $mode)) {
                 throw new \Exception('目录权限错误', -1);
             }
         }
