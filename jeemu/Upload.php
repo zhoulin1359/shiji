@@ -22,6 +22,7 @@ class Upload implements UploadedFileInterface
     private $clientMediaType;
     private $size;
     private $extension;
+    private $key;
 
     public function __construct($file, string $path = '')
     {
@@ -44,6 +45,8 @@ class Upload implements UploadedFileInterface
         $this->size = $this->file['size'];
         // var_dump( pathinfo($this->clientFilename));
         $this->extension = pathinfo($this->clientFilename)['extension'];
+
+        $this->getKey();
     }
 
     private function codeToMessage($code)
@@ -85,9 +88,9 @@ class Upload implements UploadedFileInterface
 
     public function getClientMediaType(): string
     {
-        if (empty($this->clientMediaType)){
-            $fInfo = new \finfo(FILEINFO_MIME_TYPE );
-            $this->clientMediaType =  $fInfo->file($this->file['tmp_name']);
+        if (empty($this->clientMediaType)) {
+            $fInfo = new \finfo(FILEINFO_MIME_TYPE);
+            $this->clientMediaType = $fInfo->file($this->file['tmp_name']);
             unset($fInfo);
         }
         return $this->clientMediaType;
@@ -119,7 +122,10 @@ class Upload implements UploadedFileInterface
 
     public function getKey(): string
     {
-        return md5_file($this->file['tmp_name']);
+        if (empty($this->key)) {
+            $this->key = md5_file($this->file['tmp_name']);
+        }
+        return $this->key;
     }
 
     /**

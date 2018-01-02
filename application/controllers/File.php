@@ -26,7 +26,7 @@ class FileController extends BaseController
                 return jsonResponse(['url' => $result, 'id' => $id]);
             } else {
                // var_dump($resModel->getLog());
-                var_dump($resModel->getError());
+                //var_dump($resModel->getError());
                 return jsonResponse([], 0, response()::RESPONSE_INFO_100);
             }
             //return response()->sendHtml(json_encode(['result'=>0,'message'=>'','data'=>['url'=>$result]]));
