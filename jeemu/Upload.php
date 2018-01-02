@@ -85,12 +85,12 @@ class Upload implements UploadedFileInterface
 
     public function getClientMediaType(): string
     {
-
-        $fInfo = new \finfo(FILEINFO_MIME );
-         $a = ($fInfo->file($this->file['tmp_name']));
-         return $a;
-        //$mimeType = $fInfo->file($this->file['tmp_name']);
-       // return strstr($a,';',true);
+        if (empty($this->clientMediaType)){
+            $fInfo = new \finfo(FILEINFO_MIME_TYPE );
+            $this->clientMediaType =  $fInfo->file($this->file['tmp_name']);
+            unset($fInfo);
+        }
+        return $this->clientMediaType;
         // TODO: Implement getClientMediaType() method.
     }
 
@@ -153,10 +153,9 @@ class Upload implements UploadedFileInterface
         }
         if (isset($role['mime_type']) && is_array($role['mime_type'])) {
             $fileMimeType = $this->getClientMediaType();
-            var_export($fileMimeType);
-            $fileMimeType = strstr($fileMimeType,';',true);
+            //$fileMimeType = strstr($fileMimeType,';',true);
             if (!in_array($fileMimeType, $role['mime_type'])) {
-                var_export($fileMimeType);
+
                 $this->errorMsg = '只允许上传' . implode(',', $role['mime_type']) . '类型文件';
                 return false;
             }

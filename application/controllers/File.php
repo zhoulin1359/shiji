@@ -22,9 +22,11 @@ class FileController extends BaseController
         }
         $result = $upload->moveTo();
         if ($result) {
-            if ($id = $resModel->set($upload->getClientFilename(), $result, $upload->getClientMediaType(), $upload->getSize(), $upload->getSize(), $this->uid)) {
+            if ($id = $resModel->set($upload->getClientFilename(), $result, $upload->getClientMediaType(), $upload->getSize(), $upload->getKey(), $this->uid)) {
                 return jsonResponse(['url' => $result, 'id' => $id]);
             } else {
+               // var_dump($resModel->getLog());
+                var_dump($resModel->getError());
                 return jsonResponse([], 0, response()::RESPONSE_INFO_100);
             }
             //return response()->sendHtml(json_encode(['result'=>0,'message'=>'','data'=>['url'=>$result]]));
