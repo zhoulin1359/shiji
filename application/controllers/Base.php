@@ -72,4 +72,9 @@ class BaseController extends Yaf\Controller_Abstract
         $cookieRedis->set($uuid, ['uid' => $uid, 'user_agent' => md5(request()->userAgent)]);
         return true;
     }
+
+
+    protected function getUserInfo(string $key):string {
+        return $this->session->get($key);
+    }
 }

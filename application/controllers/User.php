@@ -105,4 +105,12 @@ class UserController extends BaseController
         }
         return jsonResponse([],302,'请登录');
     }
+
+
+    public function userInfoAction(){
+        if ($this->uid){
+            return jsonResponse(['nick'=>$this->getUserInfo('nick'),'headImg'=>$this->getUserInfo('headImg')]);
+        }
+        return jsonResponse([],302,'请登录');
+    }
 }
