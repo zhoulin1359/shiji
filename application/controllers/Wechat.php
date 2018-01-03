@@ -68,4 +68,19 @@ class WechatController extends BaseController
             return jsonResponse([], 0, \Jeemu\Response::RESPONSE_INFO_100);
         }
     }
+
+
+    public function sendTemplateMsgAction()
+    {
+        $accessToken = (new Jeemu\Wechat\AccessToken(conf('wechat.appid'), conf('wechat.appsecret')))->get();
+        $templateId = 'VSnwv27VM53YpJVQZ-n1cbMaqych_E82f6s2m926_zk';
+        $openId = 'o2v4SwuiQtqk00qEaPTWg-jjQ0MI';
+        $msg = ['msg' => ['value' => '我是小小']];
+        $result = (new Jeemu\Wechat\Template())->sendTemplateMsg($templateId, $accessToken, $openId, $msg,$url='https://www.ss.com');
+        jsonResponse([serialize($result)]);
+        if (!empty($result)) {
+            (new WechatTemplateModel())->set($result['msgid'], $templateId, $openId, json_encode($msg), $this->uid);
+        }
+        jsonResponse($result);
+    }
 }

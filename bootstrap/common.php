@@ -149,11 +149,11 @@ function formatBytes($bytes = 0, $precision = 2)
 }
 
 /**
- * 发送https请求
+ * 发送https请求-GET
  * @param $url
  * @return mixed
  */
-function curlHttpsGet($url, $timeOut = 10)
+function curlHttpsGet($url, $timeOut = 2)
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -168,6 +168,27 @@ function curlHttpsGet($url, $timeOut = 10)
     return $result;
 }
 
+/**
+ * 发送https请求-POST
+ * @param $url
+ * @return mixed
+ */
+function curlHttpsPost($url, $data, $timeOut = 2)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeOut);
+    curl_setopt($ch, CURLOPT_REFERER, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
 
 function isWechat(): bool
 {
