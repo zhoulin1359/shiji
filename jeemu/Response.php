@@ -27,11 +27,6 @@ class Response
     public function __construct(\Yaf\Response\Http $response)
     {
         $this->response = $response;
-        $this->response->setHeader('Content-Type', 'application/json;charset=utf-8');
-        $this->response->setHeader('Access-Control-Allow-Origin', !empty(request()->referer)?request()->referer:'*');
-        $this->response->setHeader('Access-Control-Allow-Credentials', 'true'); //允许cookie
-        $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
     }
 
 
@@ -72,8 +67,20 @@ class Response
         return true;
     }
 
+
+    private function setHeader(){
+        $this->response->setHeader('Content-Type', 'application/json;charset=utf-8');
+        $this->response->setHeader('Access-Control-Allow-Origin', !empty(request()->referer)?request()->referer:'*');
+        $this->response->setHeader('Access-Control-Allow-Credentials', 'true'); //允许cookie
+        $this->response->setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        $this->response->setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+    }
+
     public function __destruct()
     {
+        if (!headers_sent()){
+            $this->setHeader();
+        }
         if ($this->sendHtml){
             return;
         }

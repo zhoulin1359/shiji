@@ -197,3 +197,9 @@ function isWechat(): bool
     }
     return false;
 }
+
+
+function subStrByStart(string $srt, int $len = 25): string
+{
+    return empty($srt) ? $srt : mb_substr($srt, 0, $len) . '...';
+}

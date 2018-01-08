@@ -16,14 +16,14 @@ return array(
         'select' => 0
     ),
     //缓存配置
-    'redis_cache'=>[
+    'redis_cache' => [
         'host' => '172.17.0.3',
         'port' => 6379,
         //'auth' => '123456',
         'select' => 4
-        ],
+    ],
     //cookie对应关系
-    'redis_cookie'=>[
+    'redis_cookie' => [
         'host' => '172.17.0.3',
         'port' => 6379,
         //'auth' => '123456',
@@ -33,7 +33,7 @@ return array(
     'db' => [
         // required
         'database_type' => 'mysql',
-        'database_name' => 'history_base',
+        'database_name' => 'history_jeemu',
         'server' => '172.17.0.4',
         'username' => 'root',
         'password' => '123456',
@@ -43,7 +43,7 @@ return array(
         'port' => 3306,
 
         // [optional] Table prefix
-        'prefix' => '',
+        'prefix' => 'his_',
 
         // [optional] Enable logging (Logging is disabled by default for better performance)
         'logging' => true
@@ -86,18 +86,22 @@ return array(
         // [optional] Enable logging (Logging is disabled by default for better performance)
         'logging' => true
     ],
-    'alidayu'=>[
-        'app_key'=>'23311866',
-        'app_secret'=>'a873b1e2d9ef791b041a95016da1a114'
+    'alidayu' => [
+        'app_key' => '23311866',
+        'app_secret' => 'a873b1e2d9ef791b041a95016da1a114'
     ],
-    'wechat'=>[
-        'appid'=>'wxfa31e52b4e31f982',
-        'appsecret'=>'f1ab5f7267fc73eb7c0ff710efef2759'
+    'wechat' => [
+        'appid' => 'wxfa31e52b4e31f982',
+        'appsecret' => 'f1ab5f7267fc73eb7c0ff710efef2759'
     ],
-    'aes'=>[
-        'key'=>'FeeSSDcccddEE'
+    'aes' => [
+        'key' => 'FeeSSDcccddEE'
     ],
-    'client_host'=>'http:127.0.0.1:8083/#',
+    'client_host' => 'http:127.0.0.1:8083/#',
+    'client_style' => [
+        'date' => 'Y/m/d',
+        'content_len'=>50
+    ],
     //开发模式
     'debug' => true
 );

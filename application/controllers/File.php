@@ -10,7 +10,7 @@ class FileController extends BaseController
 {
     public function uploadImgAction()
     {
-        $upload = \Jeemu\Dispatcher::getInstance()->getUpload();
+        $upload = \Jeemu\Dispatcher::getInstance()->getUpload($_FILES['file']);
         if (!$upload->check(['extension' => ['png', 'jpg', 'jpeg', 'gif'], 'max_size' => 1024 * 1024 * 10, 'mime_type' => ['image/png', 'image/jpeg', 'image/jpg', 'image/gif']])) {
             return jsonResponse([], -1, $upload->getError());
         }
