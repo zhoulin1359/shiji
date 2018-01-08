@@ -82,10 +82,10 @@ class Dispatcher
         return self::$obj[__FUNCTION__];
     }
 
-    public function getUpload(string $path =''): Upload
+    public function getUpload(array $file,string $path =''): Upload
     {
         if (empty(self::$obj[__FUNCTION__])) {
-            self::$obj[__FUNCTION__] = new Upload($_FILES, $path);
+            self::$obj[__FUNCTION__] = new Upload($file, $path);
         }
         return self::$obj[__FUNCTION__];
     }

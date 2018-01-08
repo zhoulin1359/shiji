@@ -14,7 +14,7 @@ use Psr\Http\Message\UploadedFileInterface;
 class Upload implements UploadedFileInterface
 {
     public $host = 'http://res.shiji.com';
-    private $uploadPath = '../upload';
+    private $uploadPath = APP_PATH.'/upload/file';
     private $filePath;
     private $file;
     private $errorMsg = '';
@@ -27,7 +27,7 @@ class Upload implements UploadedFileInterface
     public function __construct($file, string $path = '')
     {
 
-        $this->file = current($file);
+        $this->file = $file;
         if ($this->file['error'] !== 0) {
             $this->codeToMessage($file['error']);
             return;
