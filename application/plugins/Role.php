@@ -49,7 +49,7 @@ class RolePlugin extends Yaf\Plugin_Abstract
             jsonResponse([],404,'找不到当前页面');die;
         }
         if (empty($this->uid)){
-            $groupId = 0;
+            $groupId = 1;
         }else{
             if (isset($userData['group_id'])){
                 $groupId = $userData['group_id'];
