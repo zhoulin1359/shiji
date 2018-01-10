@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : docker
-Source Server Version : 80003
+Source Server         : 127.0.0.1
+Source Server Version : 50720
 Source Host           : 127.0.0.1:3306
 Source Database       : history_jeemu
 
 Target Server Type    : MYSQL
-Target Server Version : 80003
+Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-01-10 21:20:14
+Date: 2018-01-10 23:38:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5600,8 +5600,8 @@ CREATE TABLE `his_user_group` (
 -- ----------------------------
 -- Records of his_user_group
 -- ----------------------------
-INSERT INTO `his_user_group` VALUES ('1', '游客', '1', '0', '0');
-INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6', '0', '0');
+INSERT INTO `his_user_group` VALUES ('1', '游客', '7|8', '0', '0');
+INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8', '0', '0');
 INSERT INTO `his_user_group` VALUES ('3', '认证用户', '6', '0', '0');
 
 -- ----------------------------
@@ -5617,7 +5617,7 @@ CREATE TABLE `his_user_role` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_role` (`role`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_user_role
@@ -5628,6 +5628,8 @@ INSERT INTO `his_user_role` VALUES ('3', '0', '收藏模块', '', '0', '0');
 INSERT INTO `his_user_role` VALUES ('4', '3', '新建收藏', '', '0', '0');
 INSERT INTO `his_user_role` VALUES ('5', '0', '油画模块', '', '0', '0');
 INSERT INTO `his_user_role` VALUES ('6', '5', '首页列表', '/api/oil/list', '0', '0');
+INSERT INTO `his_user_role` VALUES ('7', '1', '获取登录页面', '/api/user/getLoginUrl', '0', '0');
+INSERT INTO `his_user_role` VALUES ('8', '1', '用户登录', '/api/user/login', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_wechat_error
