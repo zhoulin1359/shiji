@@ -19,7 +19,7 @@ class UserController extends BaseController
         if ($valid !== true) {
             return jsonResponse([$param], -1, $valid[0]);
         }
-        $model = new DbJeemuUserModel();
+        $model = new UserModel();
         $data = $model->getLoginInfoByPhone($param['phone']);
         if (empty($data)){
             return jsonResponse(['url'=>'/register','alert'=>'confirm','type'=>'push'], 302, '当前手机号还没有注册，先去注册？');
@@ -30,7 +30,7 @@ class UserController extends BaseController
         if ($data['status'] != 1){
             return jsonResponse([], -1, '当前账号已被禁用');
         }
-        $this->login((int)$data['id'], (int)$data['group_id'], $data['nick'], (new DbJeemuResModel())->getUrlById((int)$data['headimg_res_id']), isWechat());
+        LoginModel::login((int)$data['id'], (int)$data['group_id'], $data['nick'], (new DbJeemuResModel())->getUrlById((int)$data['headimg_res_id']), isWechat());
         return jsonResponse();
     }
 
@@ -47,7 +47,7 @@ class UserController extends BaseController
         if ($valid !== true) {
             return jsonResponse([$param], -1, $valid[0]);
         }
-        $model = new DbJeemuUserModel();
+        $model = new UserModel();
 
         if ($model->hasByPhone($param['phone'])){
             return jsonResponse(['url'=>'/login','alert'=>'confirm','type'=>'push'],302,'当前手机号已经注册，直接去登录？');
@@ -70,7 +70,7 @@ class UserController extends BaseController
         if ($uid = $model->setByPhone($param['phone'], $param['password'])) {
             $userInfo = $model->getUserLoginInfoById($uid);
             if (!empty($userInfo)) {
-                $this->login($uid, $userInfo['group_id'], $userInfo['nick'], $userInfo['head_img'], isWechat());
+                LoginModel::login($uid, $userInfo['group_id'], $userInfo['nick'], $userInfo['head_img'], isWechat());
                 return jsonResponse();
             }else{
                 return jsonResponse([$model->getError(),$model->getLog()], 0, '服务器出现问题!请重试....');

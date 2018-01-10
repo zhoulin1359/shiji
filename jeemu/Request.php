@@ -18,7 +18,7 @@ class Request
     private $requsetHandle;
 
     public $host;
-    public $url;
+    public $uri;
     public $userAgent;
     public $referer;
 
@@ -36,7 +36,7 @@ class Request
             }
 
         }
-        $this->url = $this->requsetHandle->url;
+        $this->uri = $this->requsetHandle->getRequestUri();
         $this->host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
         $this->userAgent = $_SERVER['HTTP_USER_AGENT'];
         $this->referer = $_SERVER['HTTP_ORIGIN'];

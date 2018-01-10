@@ -97,4 +97,9 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
         }
     }
 
+    public function _initRolePlugin(Yaf\Dispatcher $dispatcher){
+        $role = new RolePlugin();
+        $dispatcher->registerPlugin($role);
+    }
+
 }

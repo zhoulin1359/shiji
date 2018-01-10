@@ -6,14 +6,14 @@
  * Date: 2017/12/20
  * Time: 0:02
  */
-class DbJeemuUserModel extends Db_JeemuBase
+class UserModel extends \Jeemu\Db\Connect\Mysql
 {
     public function setByPhone(string $phone, string $password): int
     {
         $data['headimg_res_id'] = 1;
         $data['phone'] = $phone;
         $data['salt'] = randStr(16);
-        $data['password'] = $this->getPassword($password,$data['salt']);
+        $data['password'] = $this->getPassword($password, $data['salt']);
         $data['insert_time'] = time();
         $data['update_time'] = time();
         $this->insert($data);
@@ -25,8 +25,9 @@ class DbJeemuUserModel extends Db_JeemuBase
     }
 
 
-    public function getPassword(string $password,string $salt){
-        return  md5($password . $salt);
+    public function getPassword(string $password, string $salt)
+    {
+        return md5($password . $salt);
     }
 
     /**
@@ -74,11 +75,20 @@ class DbJeemuUserModel extends Db_JeemuBase
     public function getLoginInfoByPhone(string $phone): array
     {
         $result = [];
-        $data = $this->get(['id','password', 'salt', 'nick', 'group_id','headimg_res_id', 'status'], ['phone[=]' => $phone]);
+        $data = $this->get(['id', 'password', 'salt', 'nick', 'group_id', 'headimg_res_id', 'status'], ['phone[=]' => $phone]);
         if ($data) {
             $result = $data;
         }
         return $result;
+    }
+
+    public function getGroupIdByUid(int $id): int
+    {
+        $data = $this->get(['group_id'], ['id[=]' => $id]);
+        if ($data) {
+            return (int)$data['group_id'];
+        }
+        return 0;
     }
 
     public function updateByWechat(string $nick, int $sex, int $resId): bool

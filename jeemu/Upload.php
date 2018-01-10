@@ -14,7 +14,7 @@ use Psr\Http\Message\UploadedFileInterface;
 class Upload implements UploadedFileInterface
 {
     public $host = 'http://res.shiji.com';
-    private $uploadPath = APP_PATH.'/upload/file';
+    private $uploadPath = APP_PATH.'/upload';
     private $filePath;
     private $file;
     private $errorMsg = '';
@@ -36,7 +36,7 @@ class Upload implements UploadedFileInterface
             $this->uploadPath = $path;
         }
         $this->uploadPath;
-        $this->filePath = date('/Y/m/d/') . randStr(5);
+        $this->filePath = '/file'.date('/Y/m/d/') . randStr(5);
         if (!is_dir($this->uploadPath . $this->filePath)) {
             createPath($this->uploadPath . $this->filePath, 0644);
         }

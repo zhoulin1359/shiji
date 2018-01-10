@@ -21,5 +21,4 @@ $app  = new Yaf\Application(APP_PATH . "/conf/application.ini");
 //var_dump($app->environ());
 //var_dump($app->getConfig('application'));
 //var_dump($app->getModules());
-
 $app->bootstrap()->run();
