@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50720
+Source Server         : docker
+Source Server Version : 80003
 Source Host           : 127.0.0.1:3306
 Source Database       : history_jeemu
 
 Target Server Type    : MYSQL
-Target Server Version : 50720
+Target Server Version : 80003
 File Encoding         : 65001
 
-Date: 2018-01-10 23:38:49
+Date: 2018-01-11 18:36:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5431,11 +5431,13 @@ INSERT INTO `his_author` VALUES ('2', '小钢铁', '', '0', '0', '0');
 DROP TABLE IF EXISTS `his_focus`;
 CREATE TABLE `his_focus` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '名称',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `insert_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `normal_uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -5448,18 +5450,22 @@ CREATE TABLE `his_focus` (
 DROP TABLE IF EXISTS `his_focus_target`;
 CREATE TABLE `his_focus_target` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `focus_id` int(11) NOT NULL DEFAULT '0' COMMENT '分类id',
   `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1-油画',
   `target_id` int(11) NOT NULL DEFAULT '0' COMMENT '目标id',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：1-有效；0-删除',
   `insert_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `normal_uid` (`uid`),
+  KEY `normal_targer_id` (`target_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_focus_target
 -- ----------------------------
+INSERT INTO `his_focus_target` VALUES ('1', '3', '2', '1', '2', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_oil
@@ -5601,7 +5607,7 @@ CREATE TABLE `his_user_group` (
 -- Records of his_user_group
 -- ----------------------------
 INSERT INTO `his_user_group` VALUES ('1', '游客', '7|8', '0', '0');
-INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8', '0', '0');
+INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8|9', '0', '0');
 INSERT INTO `his_user_group` VALUES ('3', '认证用户', '6', '0', '0');
 
 -- ----------------------------
@@ -5617,7 +5623,7 @@ CREATE TABLE `his_user_role` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_role` (`role`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_user_role
@@ -5630,6 +5636,7 @@ INSERT INTO `his_user_role` VALUES ('5', '0', '油画模块', '', '0', '0');
 INSERT INTO `his_user_role` VALUES ('6', '5', '首页列表', '/api/oil/list', '0', '0');
 INSERT INTO `his_user_role` VALUES ('7', '1', '获取登录页面', '/api/user/getLoginUrl', '0', '0');
 INSERT INTO `his_user_role` VALUES ('8', '1', '用户登录', '/api/user/login', '0', '0');
+INSERT INTO `his_user_role` VALUES ('9', '3', '是否收藏', '/api/focus/isFocus', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_wechat_error
