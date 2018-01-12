@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80003
 File Encoding         : 65001
 
-Date: 2018-01-11 18:36:22
+Date: 2018-01-12 18:39:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5438,11 +5438,12 @@ CREATE TABLE `his_focus` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_focus
 -- ----------------------------
+INSERT INTO `his_focus` VALUES ('5', '3', '22', '', '1515745536', '1515745536');
 
 -- ----------------------------
 -- Table structure for his_focus_target
@@ -5460,12 +5461,13 @@ CREATE TABLE `his_focus_target` (
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`),
   KEY `normal_targer_id` (`target_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_focus_target
 -- ----------------------------
-INSERT INTO `his_focus_target` VALUES ('1', '3', '2', '1', '2', '1', '0', '0');
+INSERT INTO `his_focus_target` VALUES ('11', '5', '3', '1', '1', '1', '1515753367', '1515753367');
+INSERT INTO `his_focus_target` VALUES ('12', '3', '5', '1', '1', '1', '1515753444', '1515753444');
 
 -- ----------------------------
 -- Table structure for his_oil
@@ -5607,7 +5609,7 @@ CREATE TABLE `his_user_group` (
 -- Records of his_user_group
 -- ----------------------------
 INSERT INTO `his_user_group` VALUES ('1', '游客', '7|8', '0', '0');
-INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8|9', '0', '0');
+INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8|9|10|11|12|13', '0', '0');
 INSERT INTO `his_user_group` VALUES ('3', '认证用户', '6', '0', '0');
 
 -- ----------------------------
@@ -5623,7 +5625,7 @@ CREATE TABLE `his_user_role` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_role` (`role`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_user_role
@@ -5637,6 +5639,10 @@ INSERT INTO `his_user_role` VALUES ('6', '5', '首页列表', '/api/oil/list', '
 INSERT INTO `his_user_role` VALUES ('7', '1', '获取登录页面', '/api/user/getLoginUrl', '0', '0');
 INSERT INTO `his_user_role` VALUES ('8', '1', '用户登录', '/api/user/login', '0', '0');
 INSERT INTO `his_user_role` VALUES ('9', '3', '是否收藏', '/api/focus/isFocus', '0', '0');
+INSERT INTO `his_user_role` VALUES ('10', '3', '收藏', '/api/focus/focus', '0', '0');
+INSERT INTO `his_user_role` VALUES ('11', '3', '取消收藏', '/api/focus/cancel', '0', '0');
+INSERT INTO `his_user_role` VALUES ('12', '3', '收藏分类', '/api/focus/getCategoryList', '0', '0');
+INSERT INTO `his_user_role` VALUES ('13', '3', '新增收藏分类', '/api/focus/addCategory', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_wechat_error
