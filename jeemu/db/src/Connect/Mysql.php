@@ -73,7 +73,7 @@ class Mysql
 
     public function update($data, $where = null, $table = null)
     {
-        if ($table) {
+        if (is_null($table)) {
             $table = $this->tableName;
         }
         return $this->dbObj->update($table, $data, $where);

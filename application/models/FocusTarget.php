@@ -47,6 +47,7 @@ class FocusTargetModel extends \Jeemu\Db\Connect\Mysql
             if ($this->updateStatusById((int)$result['id'], 0)) {
                 return true;
             }
+            var_dump($this->getLog());
             return false;
         }
         return true;
