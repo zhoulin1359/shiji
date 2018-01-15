@@ -19,13 +19,18 @@ class FocusTargetModel extends \Jeemu\Db\Connect\Mysql
     }
 
 
-    public function focus(int $targetId, string $type, int $focusId , int $uid): bool
+    public function focus(int $targetId, string $type, int $focusId, int $uid): bool
     {
         if ($result = $this->getIdAndStatusByTargetIdAndType($targetId, $type, $uid)) {
-            if ($result['status'] == 1) {
+            if ($result['status'] == 1 && $result['focus_id'] == $focusId) {
                 return true;
-            } else {
+            } elseif ($result['status'] == 0 && $result['focus_id'] == $focusId) {
                 if ($this->updateStatusById((int)$result['id'])) {
+                    return true;
+                }
+                return false;
+            } else {
+                if ($this->update(['status' => 1, 'focus_id' => $focusId, 'update_time' => time()], ['id[=]' => $result['id']])->rowCount()) {
                     return true;
                 }
                 return false;
@@ -47,7 +52,6 @@ class FocusTargetModel extends \Jeemu\Db\Connect\Mysql
             if ($this->updateStatusById((int)$result['id'], 0)) {
                 return true;
             }
-            var_dump($this->getLog());
             return false;
         }
         return true;
@@ -83,10 +87,20 @@ class FocusTargetModel extends \Jeemu\Db\Connect\Mysql
     }
 
 
+    public function getIdAndStatusByTargetIdAndFocusIdAndType(int $targetId, string $type, int $focusId, int $uid): array
+    {
+        $type = $this->getType($type);
+        $data = $this->get(['id', 'status'], ['target_id[=]' => $targetId, 'uid[=]' => $uid, 'focus_id[=]' => $focusId, 'type[=]' => $type]);
+        if ($data) {
+            return $data;
+        }
+        return [];
+    }
+
     public function getIdAndStatusByTargetIdAndType(int $targetId, string $type, int $uid): array
     {
         $type = $this->getType($type);
-        $data = $this->get(['id', 'status'], ['target_id[=]' => $targetId, 'uid[=]' => $uid, 'type[=]' => $type]);
+        $data = $this->get(['id', 'status', 'focus_id'], ['target_id[=]' => $targetId, 'uid[=]' => $uid, 'type[=]' => $type]);
         if ($data) {
             return $data;
         }

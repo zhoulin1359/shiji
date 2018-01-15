@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : docker
-Source Server Version : 80003
+Source Server         : 127.0.0.1
+Source Server Version : 50720
 Source Host           : 127.0.0.1:3306
 Source Database       : history_jeemu
 
 Target Server Type    : MYSQL
-Target Server Version : 80003
+Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-01-12 18:39:53
+Date: 2018-01-15 23:20:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5438,12 +5438,13 @@ CREATE TABLE `his_focus` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_focus
 -- ----------------------------
-INSERT INTO `his_focus` VALUES ('5', '3', '22', '', '1515745536', '1515745536');
+INSERT INTO `his_focus` VALUES ('9', '3', '方法而非', '', '1516027528', '1516027528');
+INSERT INTO `his_focus` VALUES ('10', '3', '二恶烷', '', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_focus_target
@@ -5461,13 +5462,14 @@ CREATE TABLE `his_focus_target` (
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`),
   KEY `normal_targer_id` (`target_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_focus_target
 -- ----------------------------
 INSERT INTO `his_focus_target` VALUES ('11', '5', '3', '1', '1', '1', '1515753367', '1515753367');
 INSERT INTO `his_focus_target` VALUES ('12', '3', '5', '1', '1', '1', '1515753444', '1515753444');
+INSERT INTO `his_focus_target` VALUES ('13', '3', '5', '1', '2', '1', '1516027095', '1516029040');
 
 -- ----------------------------
 -- Table structure for his_oil
@@ -5491,6 +5493,45 @@ CREATE TABLE `his_oil` (
 -- ----------------------------
 INSERT INTO `his_oil` VALUES ('1', '蒙娜丽莎', '1504年左右，达芬奇创造了蒙娜丽莎的微笑，这幅作品咋看是一个女人的微笑，但事实上不是，在这幅画的背后还隐藏着第二张脸，科学家通过多光谱扫描发现了三种不同的绘画，他们就隐藏在蒙娜丽莎的微笑背后。如果我们将这些图像还原，那么就会看到一个动态的蒙娜丽莎的微笑，不得不佩服达芬奇的天才创作。', '1', '86', '0', '1', '0', '0');
 INSERT INTO `his_oil` VALUES ('2', '钢铁侠', ' ', '2', '88', '0', '1', '0', '0');
+
+-- ----------------------------
+-- Table structure for his_oil_score_log
+-- ----------------------------
+DROP TABLE IF EXISTS `his_oil_score_log`;
+CREATE TABLE `his_oil_score_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
+  `score` tinyint(1) NOT NULL DEFAULT '0' COMMENT '分数',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `normal_uid` (`uid`),
+  KEY `normal_oil_id` (`oil_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_oil_score_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for his_oli_score
+-- ----------------------------
+DROP TABLE IF EXISTS `his_oli_score`;
+CREATE TABLE `his_oli_score` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
+  `score` tinyint(1) NOT NULL DEFAULT '4' COMMENT '分数',
+  `total_score` int(11) NOT NULL DEFAULT '0' COMMENT '总分数',
+  `total_user` int(11) NOT NULL DEFAULT '0' COMMENT '总人数',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `normal_oil_id` (`oil_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_oli_score
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for his_res
