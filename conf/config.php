@@ -102,6 +102,9 @@ return array(
         'date' => 'Y/m/d',
         'content_len'=>50
     ],
+    'client_oil'=>[
+        'default_score'=>3.4
+    ],
     //开发模式
     'debug' => true
 );

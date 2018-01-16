@@ -59,7 +59,7 @@ class WechatController extends BaseController
 
         $resModel = new DbJeemuResModel();
         $resId = $resModel->setByUrl($userInfo['headimgurl']);
-        $userModel = new DbJeemuUserModel();
+        $userModel = new UserModel();
         if ($uid = $userModel->setByWechat($userInfo['openid'], $userInfo['nickname'], $userInfo['sex'], $resId)) {
             (new DbJeemuUserAddressModel())->set($uid, $userInfo['country'], $userInfo['province'], $userInfo['city']);
             LoginModel::login($uid, 2, $userInfo['nickname'], $userInfo['headimgurl'], true);

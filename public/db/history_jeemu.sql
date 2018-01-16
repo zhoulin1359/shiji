@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50720
+Source Server         : docker
+Source Server Version : 80003
 Source Host           : 127.0.0.1:3306
 Source Database       : history_jeemu
 
 Target Server Type    : MYSQL
-Target Server Version : 50720
+Target Server Version : 80003
 File Encoding         : 65001
 
-Date: 2018-01-15 23:20:55
+Date: 2018-01-16 18:45:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5438,13 +5438,15 @@ CREATE TABLE `his_focus` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_focus
 -- ----------------------------
 INSERT INTO `his_focus` VALUES ('9', '3', '方法而非', '', '1516027528', '1516027528');
 INSERT INTO `his_focus` VALUES ('10', '3', '二恶烷', '', '0', '0');
+INSERT INTO `his_focus` VALUES ('11', '2', '123222', '', '1516088154', '1516088154');
+INSERT INTO `his_focus` VALUES ('12', '3', '222', '', '1516091968', '1516091968');
 
 -- ----------------------------
 -- Table structure for his_focus_target
@@ -5462,14 +5464,16 @@ CREATE TABLE `his_focus_target` (
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`),
   KEY `normal_targer_id` (`target_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_focus_target
 -- ----------------------------
 INSERT INTO `his_focus_target` VALUES ('11', '5', '3', '1', '1', '1', '1515753367', '1515753367');
-INSERT INTO `his_focus_target` VALUES ('12', '3', '5', '1', '1', '1', '1515753444', '1515753444');
-INSERT INTO `his_focus_target` VALUES ('13', '3', '5', '1', '2', '1', '1516027095', '1516029040');
+INSERT INTO `his_focus_target` VALUES ('12', '3', '9', '1', '1', '0', '1515753444', '1516091827');
+INSERT INTO `his_focus_target` VALUES ('13', '3', '5', '1', '2', '0', '1516027095', '1516073134');
+INSERT INTO `his_focus_target` VALUES ('14', '2', '11', '1', '1', '1', '1516088156', '1516088448');
+INSERT INTO `his_focus_target` VALUES ('15', '2', '11', '1', '2', '1', '1516088512', '1516088512');
 
 -- ----------------------------
 -- Table structure for his_oil
@@ -5495,6 +5499,28 @@ INSERT INTO `his_oil` VALUES ('1', '蒙娜丽莎', '1504年左右，达芬奇创
 INSERT INTO `his_oil` VALUES ('2', '钢铁侠', ' ', '2', '88', '0', '1', '0', '0');
 
 -- ----------------------------
+-- Table structure for his_oil_score
+-- ----------------------------
+DROP TABLE IF EXISTS `his_oil_score`;
+CREATE TABLE `his_oil_score` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
+  `score` decimal(3,2) NOT NULL DEFAULT '4.00' COMMENT '分数',
+  `total_score` int(11) NOT NULL DEFAULT '0' COMMENT '总分数',
+  `total_user` int(11) NOT NULL DEFAULT '0' COMMENT '总人数',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_oil_id` (`oil_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_oil_score
+-- ----------------------------
+INSERT INTO `his_oil_score` VALUES ('2', '1', '3.67', '11', '3', '1516086039', '1516088059');
+INSERT INTO `his_oil_score` VALUES ('3', '2', '5.00', '5', '1', '1516088507', '1516088507');
+
+-- ----------------------------
 -- Table structure for his_oil_score_log
 -- ----------------------------
 DROP TABLE IF EXISTS `his_oil_score_log`;
@@ -5507,31 +5533,14 @@ CREATE TABLE `his_oil_score_log` (
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`),
   KEY `normal_oil_id` (`oil_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_oil_score_log
 -- ----------------------------
-
--- ----------------------------
--- Table structure for his_oli_score
--- ----------------------------
-DROP TABLE IF EXISTS `his_oli_score`;
-CREATE TABLE `his_oli_score` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
-  `score` tinyint(1) NOT NULL DEFAULT '4' COMMENT '分数',
-  `total_score` int(11) NOT NULL DEFAULT '0' COMMENT '总分数',
-  `total_user` int(11) NOT NULL DEFAULT '0' COMMENT '总人数',
-  `insert_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `normal_oil_id` (`oil_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of his_oli_score
--- ----------------------------
+INSERT INTO `his_oil_score_log` VALUES ('15', '3', '1', '1', '1516086054');
+INSERT INTO `his_oil_score_log` VALUES ('16', '2', '1', '5', '1516088059');
+INSERT INTO `his_oil_score_log` VALUES ('17', '2', '2', '5', '1516088507');
 
 -- ----------------------------
 -- Table structure for his_res
@@ -5550,7 +5559,7 @@ CREATE TABLE `his_res` (
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_res
@@ -5561,6 +5570,7 @@ INSERT INTO `his_res` VALUES ('86', 'http://res.shiji.com/file/2018/01/08/PilEk/
 INSERT INTO `his_res` VALUES ('87', 'http://res.shiji.com/file/2018/01/08/fRDJW/5a53358ebc0cc.jpg', 'mona-lisa-74050_640.jpg', 'image/jpeg', '98136', '701306a13228a495c910cb716e4abed2', '0', '1', '1515402638', '1515402638');
 INSERT INTO `his_res` VALUES ('89', 'http://res.shiji.com/file/2018/01/08/ZkEGI/5a533f61018f9.jpg', '421H.jpg', 'image/jpeg', '4083319', '6923414ca170da549302f8a1d06046dc', '0', '1', '1515405153', '1515405153');
 INSERT INTO `his_res` VALUES ('90', 'http://res.shiji.com/file/2018/01/10/F5qjW/5a55e05ce0fe6.jpg', '', 'image/jpeg', '873168', '84af4877f030ca547eef266ea919348a', '3', '1', '1515577436', '1515577436');
+INSERT INTO `his_res` VALUES ('91', 'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epnfU0xRUrHo3suopzXxZGyTkfNfmEz9a8PRWxcwBQPs8NXkwvBL1sxOJaUKGV3Fiajs5q3fXFmiaMg/132', '微信头像', 'image/png', '0', '7aea879148c4f16d30fc88f033611559', '0', '1', '1516087974', '1516087974');
 
 -- ----------------------------
 -- Table structure for his_sms
@@ -5610,8 +5620,8 @@ CREATE TABLE `his_user` (
 -- ----------------------------
 -- Records of his_user
 -- ----------------------------
-INSERT INTO `his_user` VALUES ('2', '2', '', '积木', '1', '2', '', '', 'o2v4SwuiQtqk00qEaPTWg-jjQ0MI', '1', '1513825462', '1514287535');
-INSERT INTO `his_user` VALUES ('3', '2', '15585151428', '史迹_3', '0', '1', 'e959262558a32500aa69c343d0c4ff1b', 'E2cm50puIChUHZDM', '', '1', '1514346682', '1514346682');
+INSERT INTO `his_user` VALUES ('2', '2', '', '积木', '1', '91', '', '', 'o2v4SwuiQtqk00qEaPTWg-jjQ0MI', '1', '1513825462', '1516088020');
+INSERT INTO `his_user` VALUES ('3', '2', '15585151428', '积木', '1', '91', 'e959262558a32500aa69c343d0c4ff1b', 'E2cm50puIChUHZDM', '', '1', '1514346682', '1516088020');
 
 -- ----------------------------
 -- Table structure for his_user_address
@@ -5631,7 +5641,7 @@ CREATE TABLE `his_user_address` (
 -- ----------------------------
 -- Records of his_user_address
 -- ----------------------------
-INSERT INTO `his_user_address` VALUES ('2', '中国', '广东', '深圳', '', '1513825462', '1514287535');
+INSERT INTO `his_user_address` VALUES ('2', '中国', '广东', '深圳', '', '1513825462', '1516088020');
 
 -- ----------------------------
 -- Table structure for his_user_group
@@ -5649,8 +5659,8 @@ CREATE TABLE `his_user_group` (
 -- ----------------------------
 -- Records of his_user_group
 -- ----------------------------
-INSERT INTO `his_user_group` VALUES ('1', '游客', '7|8', '0', '0');
-INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8|9|10|11|12|13', '0', '0');
+INSERT INTO `his_user_group` VALUES ('1', '游客', '7|8|19|18|20|21|15|6', '0', '0');
+INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8|9|10|11|12|13|15|16|17|18|20|21', '0', '0');
 INSERT INTO `his_user_group` VALUES ('3', '认证用户', '6', '0', '0');
 
 -- ----------------------------
@@ -5666,7 +5676,7 @@ CREATE TABLE `his_user_role` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_role` (`role`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_user_role
@@ -5684,6 +5694,14 @@ INSERT INTO `his_user_role` VALUES ('10', '3', '收藏', '/api/focus/focus', '0'
 INSERT INTO `his_user_role` VALUES ('11', '3', '取消收藏', '/api/focus/cancel', '0', '0');
 INSERT INTO `his_user_role` VALUES ('12', '3', '收藏分类', '/api/focus/getCategoryList', '0', '0');
 INSERT INTO `his_user_role` VALUES ('13', '3', '新增收藏分类', '/api/focus/addCategory', '0', '0');
+INSERT INTO `his_user_role` VALUES ('14', '0', '评分模块', '', '0', '0');
+INSERT INTO `his_user_role` VALUES ('15', '5', '油画详情', '/api/oil/detail', '0', '0');
+INSERT INTO `his_user_role` VALUES ('16', '14', '设置评分', '/api/score/setScore', '0', '0');
+INSERT INTO `his_user_role` VALUES ('17', '14', '获取评分', '/api/score/getScore', '0', '0');
+INSERT INTO `his_user_role` VALUES ('18', '0', '微信模块', '', '0', '0');
+INSERT INTO `his_user_role` VALUES ('19', '18', '微信登录', '/api/wechat/code', '0', '0');
+INSERT INTO `his_user_role` VALUES ('20', '18', '微信分享', '/api/wechat/jssdk', '0', '0');
+INSERT INTO `his_user_role` VALUES ('21', '1', '是否登录', '/api/user/isLogin', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_wechat_error
@@ -5697,7 +5715,7 @@ CREATE TABLE `his_wechat_error` (
   `insert_time` int(11) NOT NULL DEFAULT '0',
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_wechat_error
@@ -5710,6 +5728,11 @@ INSERT INTO `his_wechat_error` VALUES ('5', '获取AccessToken', 'null', '0', '1
 INSERT INTO `his_wechat_error` VALUES ('6', '获取AccessToken', 'null', '0', '1514960387', '1514960387');
 INSERT INTO `his_wechat_error` VALUES ('7', '获取AccessToken', 'null', '0', '1514960662', '1514960662');
 INSERT INTO `his_wechat_error` VALUES ('8', '获取AccessToken', 'null', '0', '1514960685', '1514960685');
+INSERT INTO `his_wechat_error` VALUES ('9', '获取用户信息AccessToken', 'null', '0', '1516087919', '1516087919');
+INSERT INTO `his_wechat_error` VALUES ('10', '获取用户信息AccessToken', 'null', '0', '1516087919', '1516087919');
+INSERT INTO `his_wechat_error` VALUES ('11', '获取用户信息AccessToken', 'null', '0', '1516087920', '1516087920');
+INSERT INTO `his_wechat_error` VALUES ('12', '获取用户信息AccessToken', 'null', '0', '1516087920', '1516087920');
+INSERT INTO `his_wechat_error` VALUES ('13', '获取用户信息AccessToken', 'null', '0', '1516097696', '1516097696');
 
 -- ----------------------------
 -- Table structure for his_wechat_template
