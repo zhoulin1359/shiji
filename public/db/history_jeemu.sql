@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : docker
-Source Server Version : 80003
+Source Server         : 127.0.0.1
+Source Server Version : 50720
 Source Host           : 127.0.0.1:3306
 Source Database       : history_jeemu
 
 Target Server Type    : MYSQL
-Target Server Version : 80003
+Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-01-16 18:45:00
+Date: 2018-01-16 23:42:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5471,7 +5471,7 @@ CREATE TABLE `his_focus_target` (
 -- ----------------------------
 INSERT INTO `his_focus_target` VALUES ('11', '5', '3', '1', '1', '1', '1515753367', '1515753367');
 INSERT INTO `his_focus_target` VALUES ('12', '3', '9', '1', '1', '0', '1515753444', '1516091827');
-INSERT INTO `his_focus_target` VALUES ('13', '3', '5', '1', '2', '0', '1516027095', '1516073134');
+INSERT INTO `his_focus_target` VALUES ('13', '3', '12', '1', '2', '1', '1516027095', '1516117266');
 INSERT INTO `his_focus_target` VALUES ('14', '2', '11', '1', '1', '1', '1516088156', '1516088448');
 INSERT INTO `his_focus_target` VALUES ('15', '2', '11', '1', '2', '1', '1516088512', '1516088512');
 
@@ -5499,6 +5499,32 @@ INSERT INTO `his_oil` VALUES ('1', '蒙娜丽莎', '1504年左右，达芬奇创
 INSERT INTO `his_oil` VALUES ('2', '钢铁侠', ' ', '2', '88', '0', '1', '0', '0');
 
 -- ----------------------------
+-- Table structure for his_oil_attributes
+-- ----------------------------
+DROP TABLE IF EXISTS `his_oil_attributes`;
+CREATE TABLE `his_oil_attributes` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
+  `key` varchar(50) NOT NULL DEFAULT '' COMMENT '属性键',
+  `value` varchar(50) NOT NULL DEFAULT '' COMMENT '属性值',
+  `order` tinyint(1) NOT NULL DEFAULT '0' COMMENT '排序；越大越在前',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `normal_oil_id` (`oil_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_oil_attributes
+-- ----------------------------
+INSERT INTO `his_oil_attributes` VALUES ('1', '2', '尺寸（厘米）', '256*265', '0', '0', '0');
+INSERT INTO `his_oil_attributes` VALUES ('2', '2', '画布', '高级画布', '0', '0', '0');
+INSERT INTO `his_oil_attributes` VALUES ('3', '2', '画框', '高级画框', '0', '0', '0');
+INSERT INTO `his_oil_attributes` VALUES ('4', '2', 'DDF', '2222', '0', '0', '0');
+INSERT INTO `his_oil_attributes` VALUES ('5', '2', '发的所发生的', '二恶烷若', '0', '0', '0');
+INSERT INTO `his_oil_attributes` VALUES ('6', '2', '嘎嘎嘎', '233333', '0', '0', '0');
+
+-- ----------------------------
 -- Table structure for his_oil_score
 -- ----------------------------
 DROP TABLE IF EXISTS `his_oil_score`;
@@ -5517,8 +5543,8 @@ CREATE TABLE `his_oil_score` (
 -- ----------------------------
 -- Records of his_oil_score
 -- ----------------------------
-INSERT INTO `his_oil_score` VALUES ('2', '1', '3.67', '11', '3', '1516086039', '1516088059');
-INSERT INTO `his_oil_score` VALUES ('3', '2', '5.00', '5', '1', '1516088507', '1516088507');
+INSERT INTO `his_oil_score` VALUES ('2', '1', '4.00', '8', '2', '1516086039', '1516114703');
+INSERT INTO `his_oil_score` VALUES ('3', '2', '4.00', '8', '2', '1516088507', '1516114703');
 
 -- ----------------------------
 -- Table structure for his_oil_score_log
@@ -5533,7 +5559,7 @@ CREATE TABLE `his_oil_score_log` (
   PRIMARY KEY (`id`),
   KEY `normal_uid` (`uid`),
   KEY `normal_oil_id` (`oil_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_oil_score_log
@@ -5541,6 +5567,27 @@ CREATE TABLE `his_oil_score_log` (
 INSERT INTO `his_oil_score_log` VALUES ('15', '3', '1', '1', '1516086054');
 INSERT INTO `his_oil_score_log` VALUES ('16', '2', '1', '5', '1516088059');
 INSERT INTO `his_oil_score_log` VALUES ('17', '2', '2', '5', '1516088507');
+INSERT INTO `his_oil_score_log` VALUES ('18', '3', '2', '3', '1516114703');
+
+-- ----------------------------
+-- Table structure for his_oli_score
+-- ----------------------------
+DROP TABLE IF EXISTS `his_oli_score`;
+CREATE TABLE `his_oli_score` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
+  `score` tinyint(1) NOT NULL DEFAULT '4' COMMENT '分数',
+  `total_score` int(11) NOT NULL DEFAULT '0' COMMENT '总分数',
+  `total_user` int(11) NOT NULL DEFAULT '0' COMMENT '总人数',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `normal_oil_id` (`oil_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_oli_score
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for his_res

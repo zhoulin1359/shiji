@@ -30,6 +30,7 @@ class OilController extends BaseController
                 'exist'=>false
             ];
         }
+        $result['attributes'] = (new OilAttributesModel())->getByOilId($param['id']);
 
         return jsonResponse($result);
     }
