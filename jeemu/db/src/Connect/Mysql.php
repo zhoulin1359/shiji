@@ -23,7 +23,6 @@ class Mysql
     }
 
 
-
     /**
      * 查询
      * @param $select
@@ -47,6 +46,15 @@ class Mysql
         return $data;
     }
 
+
+    public function joinSelect(array $select, array $join, array $where, string $table = ''): array
+    {
+        if (empty($table)) {
+            $table = $this->tableName;
+        }
+        return $this->dbObj->select($table, $join, $select, $where);
+    }
+
     public function get($select, $where = null, $table = null): array
     {
         if (is_null($table)) {
@@ -62,12 +70,12 @@ class Mysql
     }
 
 
-
-    public function has($where,$table=null):bool {
+    public function has($where, $table = null): bool
+    {
         if (!is_null($table)) {
             $this->tableName = $table;
         }
-        return $this->dbObj->has($this->tableName,$where);
+        return $this->dbObj->has($this->tableName, $where);
     }
 
 

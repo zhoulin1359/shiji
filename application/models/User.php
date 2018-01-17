@@ -30,6 +30,15 @@ class UserModel extends \Jeemu\Db\Connect\Mysql
         return md5($password . $salt);
     }
 
+    public function getNameAndHeadImgByUids(array $uids): array
+    {
+        $data = $this->joinSelect(['user.id', 'nick','url'],['[>]res'=>['headimg_res_id'=>'id']], ['user.id' => $uids]);
+        if ($data) {
+            return DataModel::handleArray($data, 'id');
+        }
+        return [];
+    }
+
     /**
      * 获取用户登录信息
      * @param int $id

@@ -8,11 +8,11 @@
  */
 class DataModel
 {
-    static public function handleArray(array $arr, string $pk): array
+    static public function handleArray(array $arr, string $pk, string $str = ''): array
     {
         $result = [];
         foreach ($arr as $value) {
-            $result[$value[$pk]] = $value;
+            $result[$value[$pk]] = $str ? (isset($value[$str]) ? $value[$str] : $value) : $value;
         }
         return $result;
     }

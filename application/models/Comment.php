@@ -13,9 +13,19 @@ class CommentModel extends \Jeemu\Db\Connect\Mysql
         if ($pageSize === 0) {
             $pageSize = conf('page_set.size');
         }
-        $data = $this->select(['id', 'uid', 'content', 'to_uid', 'praise', 'insert_time'], ['target_id[=]' => $oilId, 'type[=]' => 1, 'status[=]' => 1, 'ORDER' => [$order => 'DESC'], 'LIMIT' => [$pageNum, $pageSize]]);
+        $data = $this->select(['id', 'uid', 'content', 'praise', 'insert_time'], ['target_id[=]' => $oilId, 'type[=]' => 1, 'status[=]' => 1, 'ORDER' => [$order => 'DESC'], 'LIMIT' => [$pageNum, $pageSize]]);
         if ($data) {
-
+            $uidArr = [];
+            foreach ($data as $value) {
+                $uidArr[] = $value['uid'];
+            }
+            $uidData = (new UserModel())->getNameAndHeadImgByUids($uidArr);
+            foreach ($data as $key => $value) {
+                $data[$key]['insert_time'] = date(conf('client_style.date'),$value['insert_time']);
+                $data[$key]['nick'] = isset($uidData[$value['uid']]) ? $uidData[$value['uid']]['nick'] : '';
+                $data[$key]['head_img'] = isset($uidData[$value['uid']]) ? $uidData[$value['uid']]['url'] : '';
+            }
+            return $data;
         }
         return [];
     }
