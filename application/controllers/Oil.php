@@ -31,7 +31,7 @@ class OilController extends BaseController
             ];
         }
         $result['attributes'] = (new OilAttributesModel())->getByOilId($param['id']);
-
+        $result['images'] = (new OilImagesModel())->getByOilId($param['id']);
         return jsonResponse($result);
     }
 }

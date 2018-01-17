@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50720
+Source Server         : docker
+Source Server Version : 80003
 Source Host           : 127.0.0.1:3306
 Source Database       : history_jeemu
 
 Target Server Type    : MYSQL
-Target Server Version : 50720
+Target Server Version : 80003
 File Encoding         : 65001
 
-Date: 2018-01-16 23:42:05
+Date: 2018-01-17 21:02:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5426,6 +5426,31 @@ INSERT INTO `his_author` VALUES ('1', '奥纳多·达·芬奇', '', '0', '0', '0
 INSERT INTO `his_author` VALUES ('2', '小钢铁', '', '0', '0', '0');
 
 -- ----------------------------
+-- Table structure for his_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `his_comment`;
+CREATE TABLE `his_comment` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '上级id',
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '类型：1-优化评论；',
+  `target_id` int(11) NOT NULL DEFAULT '0' COMMENT '目标id',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '内容',
+  `to_uid` int(11) NOT NULL DEFAULT '0' COMMENT '@用户',
+  `praise` int(11) NOT NULL DEFAULT '0' COMMENT '点赞数',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态；1-正常；0-删除',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `normal_target_id` (`target_id`),
+  KEY `normal_pid` (`pid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_comment
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for his_focus
 -- ----------------------------
 DROP TABLE IF EXISTS `his_focus`;
@@ -5470,8 +5495,8 @@ CREATE TABLE `his_focus_target` (
 -- Records of his_focus_target
 -- ----------------------------
 INSERT INTO `his_focus_target` VALUES ('11', '5', '3', '1', '1', '1', '1515753367', '1515753367');
-INSERT INTO `his_focus_target` VALUES ('12', '3', '9', '1', '1', '0', '1515753444', '1516091827');
-INSERT INTO `his_focus_target` VALUES ('13', '3', '12', '1', '2', '1', '1516027095', '1516117266');
+INSERT INTO `his_focus_target` VALUES ('12', '3', '10', '1', '1', '1', '1515753444', '1516192883');
+INSERT INTO `his_focus_target` VALUES ('13', '3', '10', '1', '2', '1', '1516027095', '1516163108');
 INSERT INTO `his_focus_target` VALUES ('14', '2', '11', '1', '1', '1', '1516088156', '1516088448');
 INSERT INTO `his_focus_target` VALUES ('15', '2', '11', '1', '2', '1', '1516088512', '1516088512');
 
@@ -5523,6 +5548,35 @@ INSERT INTO `his_oil_attributes` VALUES ('3', '2', '画框', '高级画框', '0'
 INSERT INTO `his_oil_attributes` VALUES ('4', '2', 'DDF', '2222', '0', '0', '0');
 INSERT INTO `his_oil_attributes` VALUES ('5', '2', '发的所发生的', '二恶烷若', '0', '0', '0');
 INSERT INTO `his_oil_attributes` VALUES ('6', '2', '嘎嘎嘎', '233333', '0', '0', '0');
+
+-- ----------------------------
+-- Table structure for his_oil_images
+-- ----------------------------
+DROP TABLE IF EXISTS `his_oil_images`;
+CREATE TABLE `his_oil_images` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
+  `swiper_res_id` int(11) NOT NULL DEFAULT '0' COMMENT '滑动图片id',
+  `previewer_res_id` int(11) NOT NULL DEFAULT '0' COMMENT '看图模式图片',
+  `title` varchar(20) NOT NULL DEFAULT '' COMMENT '标题',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '内容',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：1-正常；0-不显示',
+  `order` tinyint(1) NOT NULL DEFAULT '0' COMMENT '排序；越大在前',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `normal_oil_id` (`oil_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_oil_images
+-- ----------------------------
+INSERT INTO `his_oil_images` VALUES ('1', '1', '86', '86', '马赫的看看谁说的', 'fsddsadwdqwd', '1', '127', '0', '0');
+INSERT INTO `his_oil_images` VALUES ('2', '1', '87', '87', '的撒大声地', '发三大所发生的的', '1', '0', '0', '0');
+INSERT INTO `his_oil_images` VALUES ('3', '1', '89', '89', '23213124', 'ffddf\r\nfdsadasf\r\nfsasdas', '1', '0', '0', '0');
+INSERT INTO `his_oil_images` VALUES ('4', '1', '90', '90', '11111111', 'ffddf\r\nfdsadasf\r\nfsasdas', '1', '0', '0', '0');
+INSERT INTO `his_oil_images` VALUES ('5', '3', '86', '86', '马赫的看看谁说的', 'fsddsadwdqwd', '1', '127', '0', '0');
+INSERT INTO `his_oil_images` VALUES ('6', '3', '87', '87', '的撒大声地', '发三大所发生的的', '1', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_oil_score
@@ -5667,8 +5721,8 @@ CREATE TABLE `his_user` (
 -- ----------------------------
 -- Records of his_user
 -- ----------------------------
-INSERT INTO `his_user` VALUES ('2', '2', '', '积木', '1', '91', '', '', 'o2v4SwuiQtqk00qEaPTWg-jjQ0MI', '1', '1513825462', '1516088020');
-INSERT INTO `his_user` VALUES ('3', '2', '15585151428', '积木', '1', '91', 'e959262558a32500aa69c343d0c4ff1b', 'E2cm50puIChUHZDM', '', '1', '1514346682', '1516088020');
+INSERT INTO `his_user` VALUES ('2', '2', '', '积木', '1', '91', '', '', 'o2v4SwuiQtqk00qEaPTWg-jjQ0MI', '1', '1513825462', '1516184574');
+INSERT INTO `his_user` VALUES ('3', '2', '15585151428', '积木', '1', '91', 'e959262558a32500aa69c343d0c4ff1b', 'E2cm50puIChUHZDM', '', '1', '1514346682', '1516184574');
 
 -- ----------------------------
 -- Table structure for his_user_address
@@ -5688,7 +5742,7 @@ CREATE TABLE `his_user_address` (
 -- ----------------------------
 -- Records of his_user_address
 -- ----------------------------
-INSERT INTO `his_user_address` VALUES ('2', '中国', '广东', '深圳', '', '1513825462', '1516088020');
+INSERT INTO `his_user_address` VALUES ('2', '中国', '广东', '深圳', '', '1513825462', '1516184575');
 
 -- ----------------------------
 -- Table structure for his_user_group

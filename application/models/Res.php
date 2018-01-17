@@ -85,7 +85,10 @@ class ResModel extends Jeemu\Db\Connect\Mysql
         $result = [];
         $data = $this->select(['id', 'url'], ['id' => $ids]);
         if ($data) {
-            $result = $data;
+            foreach ($data as $value){
+                $result[$value['id']] = $value['url'];
+            }
+            // $result = $data;
         }
         return $result;
     }

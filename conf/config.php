@@ -105,6 +105,9 @@ return array(
     'client_oil'=>[
         'default_score'=>3.4
     ],
+    'page_set'=>[
+        'size'=>10
+    ],
     //开发模式
     'debug' => true
 );
