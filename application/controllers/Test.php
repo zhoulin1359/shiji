@@ -12,8 +12,6 @@ class TestController extends BaseController
     private $appsecret = 'f1ab5f7267fc73eb7c0ff710efef2759';
 
     public function indexAction(){
-        $aes = new Aes_Xcrypt('aes-128-gcm','11');
-       var_dump($str = $aes->encode('双扣dfe231'));
-       var_dump($aes->decode($str));
+        return jsonResponse([(new CommentModel())->addPraiseById(getRequestQuery('id'))]);
     }
 }

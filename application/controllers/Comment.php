@@ -15,6 +15,19 @@ class CommentController extends BaseController
         if ($valid !== true) {
             return jsonResponse([], -1, $valid[0]);
         }
-        return jsonResponse((new CommentModel())->getByOilId($param['oil_id']));
+        $result = (new CommentModel())->getByOilId($param['oil_id'],getRequestQuery('order',0),getRequestQuery('page_num',0));
+        $cidArr = DataModel::handleArrayGetPk($result, 'id');
+        $userPraiseData = [];
+        if ($this->uid){
+            $userPraiseData = (new CommentPraiseModel())->getIdByCidsAndUid($cidArr,$this->uid);
+        }
+        foreach ($result as $key => $value) {
+            if (isset($userPraiseData[$value['id']])) {
+                $result[$key]['user_praise'] = ['is_praise' => true, 'id' => $userPraiseData[$value['id']]];
+            } else {
+                $result[$key]['user_praise'] = ['is_praise' => false, 'id' => 0];
+            }
+        }
+        return jsonResponse($result);
     }
 }

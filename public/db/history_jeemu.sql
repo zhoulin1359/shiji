@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80003
 File Encoding         : 65001
 
-Date: 2018-01-17 21:02:09
+Date: 2018-01-18 20:30:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5444,11 +5444,35 @@ CREATE TABLE `his_comment` (
   PRIMARY KEY (`id`),
   KEY `normal_target_id` (`target_id`),
   KEY `normal_pid` (`pid`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_comment
 -- ----------------------------
+INSERT INTO `his_comment` VALUES ('1', '0', '2', '1', '2', '的地地道道的 的地地道道的多多多', '0', '18', '1', '1512243634', '1516270012');
+INSERT INTO `his_comment` VALUES ('2', '0', '3', '1', '2', 'php 数组复制和遍历_雾里看花_新浪博客', '0', '1', '1', '1516248634', '1516271663');
+
+-- ----------------------------
+-- Table structure for his_comment_praise
+-- ----------------------------
+DROP TABLE IF EXISTS `his_comment_praise`;
+CREATE TABLE `his_comment_praise` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `c_id` int(11) NOT NULL DEFAULT '0' COMMENT '评论id',
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：1-正常；0-无效',
+  `insert_time` int(11) NOT NULL DEFAULT '0',
+  `update_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_c_id` (`c_id`),
+  KEY `normal_uid` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_comment_praise
+-- ----------------------------
+INSERT INTO `his_comment_praise` VALUES ('3', '1', '3', '1', '1516268701', '1516270012');
+INSERT INTO `his_comment_praise` VALUES ('4', '2', '3', '1', '1516268717', '1516271663');
 
 -- ----------------------------
 -- Table structure for his_focus
@@ -5496,7 +5520,7 @@ CREATE TABLE `his_focus_target` (
 -- ----------------------------
 INSERT INTO `his_focus_target` VALUES ('11', '5', '3', '1', '1', '1', '1515753367', '1515753367');
 INSERT INTO `his_focus_target` VALUES ('12', '3', '10', '1', '1', '1', '1515753444', '1516192883');
-INSERT INTO `his_focus_target` VALUES ('13', '3', '10', '1', '2', '1', '1516027095', '1516163108');
+INSERT INTO `his_focus_target` VALUES ('13', '3', '10', '1', '2', '1', '1516027095', '1516271713');
 INSERT INTO `his_focus_target` VALUES ('14', '2', '11', '1', '1', '1', '1516088156', '1516088448');
 INSERT INTO `his_focus_target` VALUES ('15', '2', '11', '1', '2', '1', '1516088512', '1516088512');
 
@@ -5721,8 +5745,8 @@ CREATE TABLE `his_user` (
 -- ----------------------------
 -- Records of his_user
 -- ----------------------------
-INSERT INTO `his_user` VALUES ('2', '2', '', '积木', '1', '91', '', '', 'o2v4SwuiQtqk00qEaPTWg-jjQ0MI', '1', '1513825462', '1516184574');
-INSERT INTO `his_user` VALUES ('3', '2', '15585151428', '积木', '1', '91', 'e959262558a32500aa69c343d0c4ff1b', 'E2cm50puIChUHZDM', '', '1', '1514346682', '1516184574');
+INSERT INTO `his_user` VALUES ('2', '2', '', '微信', '1', '2', '', '', 'o2v4SwuiQtqk00qEaPTWg-jjQ0MI', '1', '1513825462', '1516184574');
+INSERT INTO `his_user` VALUES ('3', '2', '15585151428', '积木手机', '1', '1', 'e959262558a32500aa69c343d0c4ff1b', 'E2cm50puIChUHZDM', '', '1', '1514346682', '1516184574');
 
 -- ----------------------------
 -- Table structure for his_user_address
@@ -5760,8 +5784,8 @@ CREATE TABLE `his_user_group` (
 -- ----------------------------
 -- Records of his_user_group
 -- ----------------------------
-INSERT INTO `his_user_group` VALUES ('1', '游客', '7|8|19|18|20|21|15|6', '0', '0');
-INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8|9|10|11|12|13|15|16|17|18|20|21', '0', '0');
+INSERT INTO `his_user_group` VALUES ('1', '游客', '7|8|19|18|20|21|15|6|23|24', '0', '0');
+INSERT INTO `his_user_group` VALUES ('2', '注册用户', '2|6|7|8|9|10|11|12|13|15|16|17|18|20|21|23|24|26|27', '0', '0');
 INSERT INTO `his_user_group` VALUES ('3', '认证用户', '6', '0', '0');
 
 -- ----------------------------
@@ -5777,7 +5801,7 @@ CREATE TABLE `his_user_role` (
   `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `normal_role` (`role`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of his_user_role
@@ -5803,6 +5827,12 @@ INSERT INTO `his_user_role` VALUES ('18', '0', '微信模块', '', '0', '0');
 INSERT INTO `his_user_role` VALUES ('19', '18', '微信登录', '/api/wechat/code', '0', '0');
 INSERT INTO `his_user_role` VALUES ('20', '18', '微信分享', '/api/wechat/jssdk', '0', '0');
 INSERT INTO `his_user_role` VALUES ('21', '1', '是否登录', '/api/user/isLogin', '0', '0');
+INSERT INTO `his_user_role` VALUES ('22', '0', '评论模块', '', '0', '0');
+INSERT INTO `his_user_role` VALUES ('23', '22', '获取油画评论', '/api/comment/oil', '0', '0');
+INSERT INTO `his_user_role` VALUES ('24', '0', '测试', '/api/test/index', '0', '0');
+INSERT INTO `his_user_role` VALUES ('25', '0', '点赞模块', '', '0', '0');
+INSERT INTO `his_user_role` VALUES ('26', '25', '评论点赞', '/api/praise/praiseComment', '0', '0');
+INSERT INTO `his_user_role` VALUES ('27', '25', '评论取消赞', '/api/praise/cancelComment', '0', '0');
 
 -- ----------------------------
 -- Table structure for his_wechat_error

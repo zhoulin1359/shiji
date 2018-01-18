@@ -87,6 +87,16 @@ class Mysql
         return $this->dbObj->update($table, $data, $where);
     }
 
+
+    /**
+     * 获取插入的id
+     * @return int|string
+     */
+    public function getInsertId():int
+    {
+        return (int)$this->dbObj->id();
+    }
+
     /**
      * 插入
      * @param $data
