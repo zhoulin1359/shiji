@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : docker
-Source Server Version : 80003
+Source Server         : 127.0.0.1
+Source Server Version : 50720
 Source Host           : 127.0.0.1:3306
 Source Database       : history_jeemu
 
 Target Server Type    : MYSQL
-Target Server Version : 80003
+Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-01-18 20:30:06
+Date: 2018-02-23 23:19:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -5648,23 +5648,57 @@ INSERT INTO `his_oil_score_log` VALUES ('17', '2', '2', '5', '1516088507');
 INSERT INTO `his_oil_score_log` VALUES ('18', '3', '2', '3', '1516114703');
 
 -- ----------------------------
--- Table structure for his_oli_score
+-- Table structure for his_order
 -- ----------------------------
-DROP TABLE IF EXISTS `his_oli_score`;
-CREATE TABLE `his_oli_score` (
+DROP TABLE IF EXISTS `his_order`;
+CREATE TABLE `his_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `oil_id` int(11) NOT NULL DEFAULT '0' COMMENT '油画id',
-  `score` tinyint(1) NOT NULL DEFAULT '4' COMMENT '分数',
-  `total_score` int(11) NOT NULL DEFAULT '0' COMMENT '总分数',
-  `total_user` int(11) NOT NULL DEFAULT '0' COMMENT '总人数',
+  `attribute` varchar(255) NOT NULL DEFAULT '' COMMENT '属性选择',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态：0-初始态；1-支付；2-发货；3-完成；-1-取消订单；-2-过期；-3-申请退款；-4-退款审核通过；-5-退款完成',
+  `extension` varchar(255) NOT NULL DEFAULT '' COMMENT '额外信息',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `insert_time` int(11) NOT NULL DEFAULT '0',
-  `update_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `normal_oil_id` (`oil_id`)
+  KEY `normal_uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of his_oli_score
+-- Records of his_order
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for his_order_attributes
+-- ----------------------------
+DROP TABLE IF EXISTS `his_order_attributes`;
+CREATE TABLE `his_order_attributes` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `fid` int(11) NOT NULL DEFAULT '0',
+  `value` varchar(50) NOT NULL DEFAULT '' COMMENT '内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_order_attributes
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for his_order_log
+-- ----------------------------
+DROP TABLE IF EXISTS `his_order_log`;
+CREATE TABLE `his_order_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL DEFAULT '0' COMMENT '订单id',
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '内容',
+  `insert_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of his_order_log
 -- ----------------------------
 
 -- ----------------------------
